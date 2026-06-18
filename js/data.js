@@ -5,9 +5,16 @@ window.SITE_DATA = {
     navn: "Politisk blogg",
     tittel: "En tydeligere samtale om framtiden",
     ingress: "Tanker om hvilken retning kommunen vår bør ta.",
-    ctaTekst: "Les manifestet"
+    ctaTekst: "Les innleggene"
   },
+  meny: [
+    { tittel: "Innlegg", lenke: "#innlegg" },
+    { tittel: "Manifestet", lenke: "#manifest" },
+    { tittel: "Temaoversikt", lenke: "#temaer" }
+  ],
   manifestTittel: "Dette handler om mer enn valgkamp",
   manifest: "<p>Skriv manifestet ditt her, i portalen.</p>",
-  temaer: []
+  temaer: [],
+  kontaktTittel: "Vil du bidra til debatten?",
+  kontaktTekst: "Har du innspill eller tanker om samfunnsutviklingen i kommunen? Ta kontakt."
 };

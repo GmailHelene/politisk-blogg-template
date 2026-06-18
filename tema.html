@@ -3,13 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Innlegg</title>
+  <title>Tema</title>
   <meta name="description" content="" id="metaDesc" />
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="" id="ogTitle" />
-  <meta property="og:description" content="" id="ogDesc" />
-  <meta property="og:image" content="" id="ogImage" />
-  <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
@@ -32,22 +27,13 @@
   </header>
 
   <main id="hovedinnhold">
-    <article class="article">
-      <a href="index.html#innlegg" class="article__back">&larr; Alle innlegg</a>
-      <p class="article__date" id="postDate"></p>
-      <p id="postTema" hidden></p>
-      <h1 id="postTitle">Laster innlegg &hellip;</h1>
-      <p class="article__lead" id="postLead" hidden></p>
-      <div class="article__media" id="postMedia" hidden></div>
-      <div class="article__body" id="postBody"></div>
-    </article>
-
-    <section class="cta">
-      <div class="cta__inner">
-        <h2>Vil du bidra til debatten?</h2>
-        <p>Har du innspill eller tanker om dette? Ta kontakt.</p>
-        <a href="#" class="btn btn--ghost" id="kontaktBtn" style="color:#f4efe8;border-color:#6b6258" hidden>Send meg en e-post</a>
-      </div>
+    <section class="section section--wide">
+      <a href="index.html#temaer" class="article__back">&larr; Alle temaer</a>
+      <div class="rule"></div>
+      <h2 id="temaTittel">Tema</h2>
+      <p id="temaIntro" class="hero__lead" style="text-align:left;margin-left:0"></p>
+      <div class="posts" id="postsList" style="margin-top:2rem"></div>
+      <p id="postsEmpty" class="hero__lead" style="text-align:left;margin-left:0" hidden>Ingen innlegg i dette temaet ennå.</p>
     </section>
   </main>
 
@@ -57,6 +43,6 @@
   </footer>
 
   <script src="js/data.js"></script>
-  <script src="js/innlegg.js"></script>
+  <script src="js/tema.js"></script>
 </body>
 </html>

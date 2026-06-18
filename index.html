@@ -21,10 +21,7 @@
     <div class="nav__inner">
       <a href="#top" class="nav__brand" data-navn>Politisk blogg</a>
       <nav class="nav__links" id="navLinks" aria-label="Hovedmeny">
-        <a href="#manifest">Manifestet</a>
-        <a href="#temaer">Temaoversikt</a>
-        <a href="#innlegg">Innlegg</a>
-        <a href="#kontakt" class="btn btn--dark">Bli med i debatten</a>
+        <a href="#kontakt" class="btn btn--dark" id="navCta">Bli med i debatten</a>
       </nav>
       <button class="nav__toggle" id="navToggle" aria-label="Åpne meny" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span><span></span>
@@ -37,9 +34,16 @@
       <div class="hero__inner">
         <h1 data-tittel>Overskrift</h1>
         <p class="hero__lead" data-ingress></p>
-        <a href="#manifest" class="btn" data-cta>Les manifestet</a>
+        <a href="#innlegg" class="btn" data-cta>Les innleggene</a>
       </div>
       <div class="hero__media" id="heroMedia" hidden></div>
+    </section>
+
+    <section class="section section--wide" id="innlegg" aria-labelledby="innlegg-tittel">
+      <div class="rule"></div>
+      <h2 id="innlegg-tittel">Siste innlegg</h2>
+      <div class="posts" id="postsList"></div>
+      <p id="postsEmpty" class="hero__lead" style="text-align:left;margin-left:0" hidden>Ingen innlegg ennå.</p>
     </section>
 
     <section class="section" id="manifest" aria-labelledby="manifest-tittel">
@@ -56,17 +60,10 @@
       </div>
     </section>
 
-    <section class="section section--wide" id="innlegg" aria-labelledby="innlegg-tittel">
-      <div class="rule"></div>
-      <h2 id="innlegg-tittel">Innlegg</h2>
-      <div class="posts" id="postsList"></div>
-      <p id="postsEmpty" class="hero__lead" style="text-align:left;margin-left:0" hidden>Ingen innlegg ennå.</p>
-    </section>
-
     <section class="cta" id="kontakt" aria-labelledby="kontakt-tittel">
       <div class="cta__inner">
-        <h2 id="kontakt-tittel">Vil du bidra til debatten?</h2>
-        <p>Framtiden skapes ikke av en person alene. Har du innspill, tanker eller meninger om samfunnsutviklingen i kommunen? Ta kontakt, så tar vi praten videre.</p>
+        <h2 id="kontakt-tittel" data-kontakt-tittel>Vil du bidra til debatten?</h2>
+        <p data-kontakt-tekst>Framtiden skapes ikke av en person alene. Har du innspill, tanker eller meninger om samfunnsutviklingen i kommunen? Ta kontakt, så tar vi praten videre.</p>
         <a href="#" class="btn btn--ghost" id="kontaktBtn" style="color:#f4efe8;border-color:#6b6258" hidden>Send meg en e-post</a>
       </div>
     </section>

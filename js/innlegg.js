@@ -5,6 +5,27 @@
   const $$ = (s) => Array.from(document.querySelectorAll(s));
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[m]));
 
+  const DEFAULT_MENY = [
+    { tittel: "Innlegg", lenke: "#innlegg" },
+    { tittel: "Manifestet", lenke: "#manifest" },
+    { tittel: "Temaoversikt", lenke: "#temaer" },
+  ];
+
+  function renderMeny(meny) {
+    const nav = $("#navLinks");
+    const cta = $("#navCta");
+    if (!nav || !cta) return;
+    $$("#navLinks a").forEach((a) => { if (a !== cta) a.remove(); });
+    const items = Array.isArray(meny) && meny.length ? meny : DEFAULT_MENY;
+    items.forEach((it) => {
+      if (!it || !it.tittel) return;
+      const a = document.createElement("a");
+      a.href = (it.lenke || "#").charAt(0) === "#" ? "index.html" + it.lenke : (it.lenke || "#");
+      a.textContent = it.tittel;
+      nav.insertBefore(a, cta);
+    });
+  }
+
   function fmtDato(d) {
     if (!d) return "";
     const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(d).trim());
@@ -21,10 +42,11 @@
     .then((D) => {
       const info = (D && D.info) || {};
       if (info.navn) $$("[data-navn]").forEach((el) => (el.textContent = info.navn));
+      renderMeny(D && D.meny);
       const kbtn = $("#kontaktBtn");
       if (kbtn && info.epost) { kbtn.href = "mailto:" + info.epost; kbtn.textContent = "Send meg en e-post"; kbtn.hidden = false; }
     })
-    .catch(() => {});
+    .catch(() => renderMeny(null));
 
   if (!slug || !/^[a-z0-9-]+$/.test(slug)) { showError("Fant ikke innlegget."); return; }
 
@@ -46,6 +68,11 @@
 
     $("#postTitle").textContent = tittel;
     const dateEl = $("#postDate"); if (p.dato) dateEl.textContent = fmtDato(p.dato);
+    const temaEl = $("#postTema");
+    if (temaEl && p.tema) {
+      temaEl.innerHTML = `<a class="post-card__date" style="text-decoration:none" href="tema.html?navn=${encodeURIComponent(p.tema)}">${esc(p.tema)} &rarr;</a>`;
+      temaEl.hidden = false;
+    }
     const lead = $("#postLead"); if (p.ingress) { lead.textContent = p.ingress; lead.hidden = false; }
     const media = $("#postMedia");
     if (p.bilde) { media.innerHTML = `<img src="${esc(p.bilde)}" alt="${esc(tittel)}">`; media.hidden = false; }
