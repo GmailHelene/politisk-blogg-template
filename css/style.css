@@ -42,13 +42,17 @@ img { max-width: 100%; display: block; }
 /* CTA-knappen i menyen skal beholde hvit tekst (ikke arve menylenke-fargen) */
 .nav__links a.btn, .nav__links a.btn:hover { color: #fff; }
 .nav__toggle { display: none; background: none; border: 0; cursor: pointer; padding: 8px; }
-.nav__toggle span { display: block; width: 24px; height: 2px; background: var(--ink); margin: 5px 0; }
+.nav__toggle span { display: block; width: 24px; height: 2px; background: var(--ink); margin: 5px 0; transition: transform .25s ease, opacity .2s ease; transform-origin: center; }
+/* Hamburger blir til en tydelig X når menyen er åpen */
+.nav__toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav__toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav__toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* Dropdown (temaer) i toppmenyen */
 .nav__dd { position: relative; }
 .nav__dd-toggle { background: none; border: 0; cursor: pointer; font-family: var(--body); font-size: .9rem; color: var(--ink-soft); padding: 0; display: inline-flex; align-items: center; gap: .3em; }
 .nav__dd-toggle:hover { color: var(--ink); }
-.nav__dd-toggle .caret { font-size: .7em; transition: transform .2s; }
+.nav__dd-toggle .caret { font-size: .85em; transition: transform .2s; }
 .nav__dd-toggle[aria-expanded="true"] .caret { transform: rotate(180deg); }
 .nav__dd-panel { position: absolute; top: 100%; left: 0; margin-top: .6rem; min-width: 240px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: .4rem; box-shadow: 0 18px 45px -22px rgba(34,30,26,.45); display: none; z-index: 60; }
 .nav__dd-panel.open { display: block; }
@@ -127,13 +131,16 @@ img { max-width: 100%; display: block; }
 .footer__credit a { color: #d8b49e; text-decoration: underline; }
 
 @media (max-width: 720px) {
-  .nav__links { position: fixed; inset: 60px 0 auto; flex-direction: column; align-items: flex-start; gap: 0; background: var(--bg); border-bottom: 1px solid var(--line); padding: 1rem 1.5rem; display: none; }
+  .nav__links { position: fixed; inset: 60px 0 auto; flex-direction: column; align-items: stretch; gap: 0; background: var(--bg); border-bottom: 1px solid var(--line); padding: .5rem 1.5rem 1.5rem; display: none; box-shadow: 0 20px 44px -26px rgba(34,30,26,.55); }
   .nav__links.open { display: flex; }
-  .nav__links a { padding: .6rem 0; width: 100%; }
+  .nav__links a:not(.btn) { padding: 1rem .2rem; width: 100%; border-bottom: 1px solid var(--line); }
+  .nav__links a.btn { margin-top: 1rem; padding: 1rem; }
   .nav__toggle { display: block; }
   .nav__dd { width: 100%; }
-  .nav__dd-toggle { padding: .6rem 0; width: 100%; justify-content: space-between; }
-  .nav__dd-panel { position: static; border: 0; box-shadow: none; margin: 0 0 .4rem; padding: 0 0 0 1rem; min-width: 0; }
+  .nav__dd-toggle { padding: 1rem .2rem; width: 100%; justify-content: flex-start; gap: .5em; border-bottom: 1px solid var(--line); font-size: .95rem; }
+  .nav__dd-toggle .caret { font-size: 1em; margin-left: .1em; }
+  .nav__dd-panel { position: static; border: 0; box-shadow: none; margin: 0; padding: .2rem 0 .5rem .9rem; min-width: 0; }
+  .nav__dd-panel a { padding: .8rem .5rem; }
   .temaer { grid-template-columns: 1fr; gap: 1.6rem; }
   .post-card { grid-template-columns: 1fr; }
   .post-card__media { aspect-ratio: 16 / 9; }
