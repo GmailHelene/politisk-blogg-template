@@ -8,9 +8,9 @@ window.SITE_DATA = {
     ctaTekst: "Les innleggene"
   },
   meny: [
-    { tittel: "Start her", lenke: "om.html" },
+    { tittel: "Om siden", lenke: "om.html" },
     { tittel: "Serier", lenke: "#serier" },
-    { tittel: "Temaoversikt", lenke: "temaer.html" },
+    { tittel: "Temaoversikt", lenke: "#temaer" },
     { tittel: "Alle innlegg", lenke: "arkiv.html" }
   ],
   serier: [{ tittel: "Modum framover", beskrivelse: "En serie om framtidens Modum." }],

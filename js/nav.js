@@ -8,9 +8,9 @@
   const menyHref = (lenke) => ((lenke || "#").charAt(0) === "#" ? "index.html" + lenke : (lenke || "#"));
 
   const DEFAULT_MENY = [
-    { tittel: "Start her", lenke: "om.html" },
+    { tittel: "Om siden", lenke: "om.html" },
     { tittel: "Serier", lenke: "#serier" },
-    { tittel: "Temaoversikt", lenke: "temaer.html" },
+    { tittel: "Temaoversikt", lenke: "#temaer" },
     { tittel: "Alle innlegg", lenke: "arkiv.html" },
   ];
 
