@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Politisk blogg</title>
+  <meta name="description" content="Tanker om samfunnsutviklingen i kommunen. Rediger denne teksten i portalen." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Politisk blogg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a href="#hovedinnhold" class="skip-link">Hopp til innhold</a>
+
+  <header class="nav" id="top">
+    <div class="nav__inner">
+      <a href="#top" class="nav__brand" data-navn>Politisk blogg</a>
+      <nav class="nav__links" id="navLinks" aria-label="Hovedmeny">
+        <a href="#manifest">Manifestet</a>
+        <a href="#temaer">Temaoversikt</a>
+        <a href="#innlegg">Innlegg</a>
+        <a href="#kontakt" class="btn btn--dark">Bli med i debatten</a>
+      </nav>
+      <button class="nav__toggle" id="navToggle" aria-label="Åpne meny" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="hovedinnhold">
+    <section class="hero">
+      <div class="hero__inner">
+        <h1 data-tittel>Overskrift</h1>
+        <p class="hero__lead" data-ingress></p>
+        <a href="#manifest" class="btn" data-cta>Les manifestet</a>
+      </div>
+      <div class="hero__media" id="heroMedia" hidden></div>
+    </section>
+
+    <section class="section" id="manifest" aria-labelledby="manifest-tittel">
+      <div class="rule"></div>
+      <h2 id="manifest-tittel" data-manifest-tittel>Manifest</h2>
+      <div class="prose" data-manifest></div>
+    </section>
+
+    <section class="section--alt" id="temaer" aria-labelledby="temaer-tittel">
+      <div class="section__inner section__inner--wide" style="padding: 4rem 1.5rem;">
+        <div class="rule"></div>
+        <h2 id="temaer-tittel">Temaoversikt</h2>
+        <div class="temaer" id="temaerGrid"></div>
+      </div>
+    </section>
+
+    <section class="section section--wide" id="innlegg" aria-labelledby="innlegg-tittel">
+      <div class="rule"></div>
+      <h2 id="innlegg-tittel">Innlegg</h2>
+      <div class="posts" id="postsList"></div>
+      <p id="postsEmpty" class="hero__lead" style="text-align:left;margin-left:0" hidden>Ingen innlegg ennå.</p>
+    </section>
+
+    <section class="cta" id="kontakt" aria-labelledby="kontakt-tittel">
+      <div class="cta__inner">
+        <h2 id="kontakt-tittel">Vil du bidra til debatten?</h2>
+        <p>Framtiden skapes ikke av en person alene. Har du innspill, tanker eller meninger om samfunnsutviklingen i kommunen? Ta kontakt, så tar vi praten videre.</p>
+        <a href="#" class="btn btn--ghost" id="kontaktBtn" style="color:#f4efe8;border-color:#6b6258" hidden>Send meg en e-post</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__brand" data-navn>Politisk blogg</p>
+    <p class="footer__credit">Nettside av <a href="https://helene.cloud" target="_blank" rel="noopener">helene.cloud</a></p>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

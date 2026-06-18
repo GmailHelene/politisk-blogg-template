@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Innlegg</title>
+  <meta name="description" content="" id="metaDesc" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="" id="ogTitle" />
+  <meta property="og:description" content="" id="ogDesc" />
+  <meta property="og:image" content="" id="ogImage" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a href="#hovedinnhold" class="skip-link">Hopp til innhold</a>
+
+  <header class="nav" id="top">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand" data-navn>Politisk blogg</a>
+      <nav class="nav__links" id="navLinks" aria-label="Hovedmeny">
+        <a href="index.html#manifest">Manifestet</a>
+        <a href="index.html#temaer">Temaoversikt</a>
+        <a href="index.html#innlegg">Innlegg</a>
+        <a href="index.html#kontakt" class="btn btn--dark">Bli med i debatten</a>
+      </nav>
+      <button class="nav__toggle" id="navToggle" aria-label="Åpne meny" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="hovedinnhold">
+    <article class="article">
+      <a href="index.html#innlegg" class="article__back">&larr; Alle innlegg</a>
+      <p class="article__date" id="postDate"></p>
+      <h1 id="postTitle">Laster innlegg &hellip;</h1>
+      <p class="article__lead" id="postLead" hidden></p>
+      <div class="article__media" id="postMedia" hidden></div>
+      <div class="article__body" id="postBody"></div>
+    </article>
+
+    <section class="cta">
+      <div class="cta__inner">
+        <h2>Vil du bidra til debatten?</h2>
+        <p>Har du innspill eller tanker om dette? Ta kontakt.</p>
+        <a href="#" class="btn btn--ghost" id="kontaktBtn" style="color:#f4efe8;border-color:#6b6258" hidden>Send meg en e-post</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__brand" data-navn>Politisk blogg</p>
+    <p class="footer__credit">Nettside av <a href="https://helene.cloud" target="_blank" rel="noopener">helene.cloud</a></p>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/innlegg.js"></script>
+</body>
+</html>

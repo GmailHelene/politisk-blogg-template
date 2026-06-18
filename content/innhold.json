@@ -1,0 +1,23 @@
+{
+  "info": {
+    "navn": "ModumVil.no",
+    "tittel": "Modum står ved et veiskille",
+    "ingress": "Det finnes øyeblikk hvor en kommune må løfte blikket. Ikke bare spørre hvordan neste budsjett skal gå opp, men stille det store spørsmålet: Hva slags kommune skal Modum være i framtiden?",
+    "ctaTekst": "Les manifestet",
+    "heroBilde": "",
+    "epost": "",
+    "facebook": ""
+  },
+  "manifestTittel": "Dette handler om mer enn valgkamp",
+  "manifest": "<p><em>Vi kan fortsette omtrent som før. Litt justering her. Litt kutt der. Eller vi kan gjøre noe langt mer krevende. Vi kan bestemme oss for en retning. Ikke bare for neste valg, men for de neste 10, 20 og 30 årene.</em></p><h3>Vi må slutte å drive kommunen fra sak til sak</h3><p>Modum har mye å være stolt av. Vi har sterke lokalsamfunn. Vi har naturen, idretten, kulturen og frivilligheten. Vi har dugnadsånden. Vi har Vikersund, Åmot, Geithus og bygdene rundt, med hver sine kvaliteter og muligheter.</p><p>Men vi har også store utfordringer:</p><ul><li>Kommuneøkonomien er presset.</li><li>Flere bygg krever store investeringer.</li><li>Vi blir flere eldre, og færre yrkesaktive per pensjonist.</li><li>Mange unge voksne flytter ut og finner ikke veien tilbake.</li></ul><p>Næringslivet trenger raskere prosesser og tydeligere samarbeid. Skolen trenger ro, kvalitet og tydelige prioriteringer. Ungdom trenger møteplasser, trygghet og voksne som ser dem. Og innbyggerne trenger politikere som tør å si mer enn at vi skal se på saken.</p><p>Derfor mener jeg Modum trenger noe mer enn enkeltsaker. <strong>Vi trenger en samlet retning.</strong></p><h3>Spørsmålet er ikke bare hva vi har råd til</h3><p>I lokalpolitikken blir nesten alt til slutt et spørsmål om penger. Det er naturlig. Kommunen skal drives ansvarlig. Vi skal ikke love mer enn vi kan holde, og ikke skyve regningen foran oss.</p><p>Men hvis det eneste spørsmålet vi stiller er hva vi har råd til, blir politikken fort liten. Da handler alt om å fordele knapphet. Jeg mener vi også må stille et annet spørsmål: Hva må vi skape for å få råd til mer?</p>",
+  "temaer": [
+    { "tittel": "Vekst og tilflytting", "beskrivelse": "Hvordan Modum kan bli en mer attraktiv kommune for unge voksne, barnefamilier og hjemflyttere." },
+    { "tittel": "Næringsliv og arbeidsplasser", "beskrivelse": "Hvordan kommunen kan bli mer offensiv, mer næringsvennlig og enklere å samarbeide med." },
+    { "tittel": "Skole og oppvekst", "beskrivelse": "Hvordan vi kan skape trygge skoler, mer mestring og bedre sammenheng rundt barn og unge." },
+    { "tittel": "Helse og eldreomsorg", "beskrivelse": "Hvordan vi kan møte eldrebølgen med verdighet, nye løsninger og nok folk." },
+    { "tittel": "Kommuneøkonomi", "beskrivelse": "Hvorfor Modum må bruke pengene smartere, slik at innbyggerne ikke blir bedt om å betale mer." },
+    { "tittel": "Bygg, struktur og organisering", "beskrivelse": "Hvorfor vi må ha bedre oversikt, færre hastebeslutninger og mer langsiktige valg." },
+    { "tittel": "Tettstedene våre", "beskrivelse": "Hvordan Vikersund, Åmot, Geithus og bygdene kan utvikles med mer liv, identitet og stolthet." },
+    { "tittel": "Kultur, idrett og frivillighet", "beskrivelse": "Hvordan fellesskap, arrangementer og frivillig innsats kan bli en motor for utvikling." }
+  ]
+}
