@@ -101,12 +101,6 @@
 
     renderMeny(D.meny, D.temaer, D.serier);
 
-    const heroByline = $("#heroByline");
-    if (heroByline && info.forfatter) {
-      heroByline.textContent = "Skrevet av " + info.forfatter;
-      heroByline.hidden = false;
-    }
-
     const hero = $(".hero");
     if (hero) {
       if (info.heroBilde) {

@@ -77,8 +77,9 @@
         : "";
       const serieLabel = p.serie ? (p.serie + (p.delnr ? " · del " + p.delnr : "")) : "";
       const meta = [p.dato ? fmtDato(p.dato) : "", serieLabel || p.tema || ""].filter(Boolean).join(" · ");
-      const author = p.forfatter || opts.defaultForfatter;
-      const byline = author ? `<p class="post-card__byline">Av <strong>${esc(author)}</strong></p>` : "";
+      // Vis byline kun nar et innlegg er av en gjesteforfatter (ulik standard forfatter)
+      const isGuest = p.forfatter && opts.defaultForfatter && p.forfatter !== opts.defaultForfatter;
+      const byline = isGuest ? `<p class="post-card__byline">Av <strong>${esc(p.forfatter)}</strong></p>` : "";
       return `
         <article class="post-card" ${p.bilde ? "" : 'style="grid-template-columns:1fr"'}>
           ${media}
