@@ -30,7 +30,7 @@
     .then((D) => {
       const info = (D && D.info) || {};
       if (info.navn) $$("[data-navn]").forEach((el) => (el.textContent = info.navn));
-      renderMeny(D.meny);
+      renderMeny(D.meny, D.temaer);
       const match = (D.temaer || []).find((t) => norm(t.tittel) === norm(tema));
       if (match && match.beskrivelse) {
         $("#temaIntro").textContent = match.beskrivelse;
@@ -44,21 +44,47 @@
     .then((list) => renderPosts((Array.isArray(list) ? list : list.innlegg || []).filter((p) => norm(p.tema) === norm(tema))))
     .catch(() => renderPosts([]));
 
-  function renderMeny(meny) {
+  function renderMeny(meny, temaer) {
     const nav = $("#navLinks");
     const cta = $("#navCta");
     if (!nav || !cta) return;
-    $$("a", nav).forEach((a) => { if (a !== cta) a.remove(); });
+    Array.from(nav.children).forEach((c) => { if (c !== cta) c.remove(); });
     const items = Array.isArray(meny) && meny.length ? meny : DEFAULT_MENY;
+    const hasTemaer = Array.isArray(temaer) && temaer.length;
     items.forEach((it) => {
       if (!it || !it.tittel) return;
-      const a = document.createElement("a");
-      // Hash-lenker peker tilbake til forsiden fra temasiden
-      a.href = (it.lenke || "#").charAt(0) === "#" ? "index.html" + it.lenke : (it.lenke || "#");
-      a.textContent = it.tittel;
-      nav.insertBefore(a, cta);
+      if (norm(it.lenke) === "#temaer" && hasTemaer) {
+        const dd = document.createElement("div");
+        dd.className = "nav__dd";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "nav__dd-toggle";
+        btn.setAttribute("aria-expanded", "false");
+        btn.innerHTML = esc(it.tittel) + ' <span class="caret" aria-hidden="true">&#9662;</span>';
+        const panel = document.createElement("div");
+        panel.className = "nav__dd-panel";
+        temaer.forEach((t) => {
+          if (!t || !t.tittel) return;
+          const a = document.createElement("a");
+          a.href = "tema.html?navn=" + encodeURIComponent(t.tittel);
+          a.textContent = t.tittel;
+          panel.appendChild(a);
+        });
+        btn.addEventListener("click", (e) => { e.stopPropagation(); const open = panel.classList.toggle("open"); btn.setAttribute("aria-expanded", String(open)); });
+        dd.appendChild(btn); dd.appendChild(panel);
+        nav.insertBefore(dd, cta);
+      } else {
+        const a = document.createElement("a");
+        // Hash-lenker peker tilbake til forsiden fra temasiden
+        a.href = (it.lenke || "#").charAt(0) === "#" ? "index.html" + it.lenke : (it.lenke || "#");
+        a.textContent = it.tittel;
+        nav.insertBefore(a, cta);
+      }
     });
   }
+  document.addEventListener("click", () => {
+    $$(".nav__dd-panel.open").forEach((p) => { p.classList.remove("open"); const b = p.parentElement && p.parentElement.querySelector(".nav__dd-toggle"); if (b) b.setAttribute("aria-expanded", "false"); });
+  });
 
   function renderPosts(list) {
     const wrap = $("#postsList");

@@ -11,20 +11,48 @@
     { tittel: "Temaoversikt", lenke: "#temaer" },
   ];
 
-  function renderMeny(meny) {
+  const norm = (s) => String(s == null ? "" : s).trim().toLowerCase();
+
+  function renderMeny(meny, temaer) {
     const nav = $("#navLinks");
     const cta = $("#navCta");
     if (!nav || !cta) return;
-    $$("#navLinks a").forEach((a) => { if (a !== cta) a.remove(); });
+    Array.from(nav.children).forEach((c) => { if (c !== cta) c.remove(); });
     const items = Array.isArray(meny) && meny.length ? meny : DEFAULT_MENY;
+    const hasTemaer = Array.isArray(temaer) && temaer.length;
     items.forEach((it) => {
       if (!it || !it.tittel) return;
-      const a = document.createElement("a");
-      a.href = (it.lenke || "#").charAt(0) === "#" ? "index.html" + it.lenke : (it.lenke || "#");
-      a.textContent = it.tittel;
-      nav.insertBefore(a, cta);
+      if (norm(it.lenke) === "#temaer" && hasTemaer) {
+        const dd = document.createElement("div");
+        dd.className = "nav__dd";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "nav__dd-toggle";
+        btn.setAttribute("aria-expanded", "false");
+        btn.innerHTML = esc(it.tittel) + ' <span class="caret" aria-hidden="true">&#9662;</span>';
+        const panel = document.createElement("div");
+        panel.className = "nav__dd-panel";
+        temaer.forEach((t) => {
+          if (!t || !t.tittel) return;
+          const a = document.createElement("a");
+          a.href = "tema.html?navn=" + encodeURIComponent(t.tittel);
+          a.textContent = t.tittel;
+          panel.appendChild(a);
+        });
+        btn.addEventListener("click", (e) => { e.stopPropagation(); const open = panel.classList.toggle("open"); btn.setAttribute("aria-expanded", String(open)); });
+        dd.appendChild(btn); dd.appendChild(panel);
+        nav.insertBefore(dd, cta);
+      } else {
+        const a = document.createElement("a");
+        a.href = (it.lenke || "#").charAt(0) === "#" ? "index.html" + it.lenke : (it.lenke || "#");
+        a.textContent = it.tittel;
+        nav.insertBefore(a, cta);
+      }
     });
   }
+  document.addEventListener("click", () => {
+    $$(".nav__dd-panel.open").forEach((p) => { p.classList.remove("open"); const b = p.parentElement && p.parentElement.querySelector(".nav__dd-toggle"); if (b) b.setAttribute("aria-expanded", "false"); });
+  });
 
   function fmtDato(d) {
     if (!d) return "";
@@ -42,11 +70,11 @@
     .then((D) => {
       const info = (D && D.info) || {};
       if (info.navn) $$("[data-navn]").forEach((el) => (el.textContent = info.navn));
-      renderMeny(D && D.meny);
+      renderMeny(D && D.meny, D && D.temaer);
       const kbtn = $("#kontaktBtn");
       if (kbtn && info.epost) { kbtn.href = "mailto:" + info.epost; kbtn.textContent = "Send meg en e-post"; kbtn.hidden = false; }
     })
-    .catch(() => renderMeny(null));
+    .catch(() => renderMeny(null, null));
 
   if (!slug || !/^[a-z0-9-]+$/.test(slug)) { showError("Fant ikke innlegget."); return; }
 

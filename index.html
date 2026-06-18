@@ -34,9 +34,18 @@
       <div class="hero__inner">
         <h1 data-tittel>Overskrift</h1>
         <p class="hero__lead" data-ingress></p>
-        <a href="#innlegg" class="btn" data-cta>Les innleggene</a>
+        <div class="hero__actions">
+          <a href="#manifest" class="btn" data-cta>Les manifestet</a>
+          <a href="#innlegg" class="btn btn--ghost">Se siste innlegg</a>
+        </div>
       </div>
       <div class="hero__media" id="heroMedia" hidden></div>
+    </section>
+
+    <section class="section" id="manifest" aria-labelledby="manifest-tittel">
+      <div class="rule"></div>
+      <h2 id="manifest-tittel" data-manifest-tittel>Manifest</h2>
+      <div class="prose" data-manifest></div>
     </section>
 
     <section class="section section--wide" id="innlegg" aria-labelledby="innlegg-tittel">
@@ -44,12 +53,6 @@
       <h2 id="innlegg-tittel">Siste innlegg</h2>
       <div class="posts" id="postsList"></div>
       <p id="postsEmpty" class="hero__lead" style="text-align:left;margin-left:0" hidden>Ingen innlegg ennå.</p>
-    </section>
-
-    <section class="section" id="manifest" aria-labelledby="manifest-tittel">
-      <div class="rule"></div>
-      <h2 id="manifest-tittel" data-manifest-tittel>Manifest</h2>
-      <div class="prose" data-manifest></div>
     </section>
 
     <section class="section--alt" id="temaer" aria-labelledby="temaer-tittel">
