@@ -2,20 +2,29 @@
 (function () {
   const { $, $$, renderMeny, renderPostCards, setJsonLd } = window.MV;
 
+  let _info = null;
+  function maybeRenderList() {
+    if (!_info || !_innlegg) return;
+    renderPostCards($("#postsList"), _innlegg, { empty: $("#postsEmpty"), defaultForfatter: _info.forfatter });
+  }
+  let _innlegg = null;
+
   fetch("content/innhold.json", { cache: "no-store" })
     .then((r) => (r.ok ? r.json() : {}))
     .then((D) => {
-      const info = (D && D.info) || {};
-      if (info.navn) $$("[data-navn]").forEach((el) => (el.textContent = info.navn));
+      _info = (D && D.info) || {};
+      if (_info.navn) $$("[data-navn]").forEach((el) => (el.textContent = _info.navn));
       renderMeny(D.meny, D.temaer, D.serier);
+      maybeRenderList();
     })
-    .catch(() => renderMeny(null, null, null));
+    .catch(() => { _info = {}; renderMeny(null, null, null); maybeRenderList(); });
 
   fetch("content/innlegg/index.json", { cache: "no-store" })
     .then((r) => (r.ok ? r.json() : []))
     .then((list) => {
       const items = Array.isArray(list) ? list : (list.innlegg || []);
-      renderPostCards($("#postsList"), items, { empty: $("#postsEmpty") });
+      _innlegg = items;
+      maybeRenderList();
       // JSON-LD: CollectionPage som lister postene
       const itemListElement = items.map((p, i) => ({
         "@type": "ListItem",

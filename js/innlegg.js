@@ -105,7 +105,18 @@
     if (p.bilde) article.image = p.bilde;
     if (p.tema) article.about = p.tema;
     if (p.serie) article.isPartOf = { "@type": "CreativeWorkSeries", name: p.serie };
-    if (window.SITE_AUTHOR) article.author = { "@type": "Person", name: window.SITE_AUTHOR };
+    const forfatter = p.forfatter || window.SITE_AUTHOR;
+    if (forfatter) article.author = { "@type": "Person", name: forfatter };
+
+    // Synlig byline under tittelen
+    const byline = $("#postByline");
+    if (byline && forfatter) {
+      byline.innerHTML = `Av <strong>${esc(forfatter)}</strong>`;
+      if (p.forfatter && window.SITE_AUTHOR && p.forfatter !== window.SITE_AUTHOR) {
+        byline.innerHTML += ' <span class="article__byline-tag">Gjesteinnlegg</span>';
+      }
+      byline.hidden = false;
+    }
     article.publisher = { "@type": "Organization", name: "ModumVil.no" };
     const ldA = document.getElementById("ldArticle"); if (ldA) ldA.textContent = JSON.stringify(article);
 

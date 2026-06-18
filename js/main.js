@@ -9,6 +9,7 @@
   const DEFAULT_MENY = [
     { tittel: "Start her", lenke: "om.html" },
     { tittel: "Modum framover", lenke: "serie.html?navn=Modum framover" },
+    { tittel: "Om siden", lenke: "om.html" },
     { tittel: "Temaoversikt", lenke: "temaer.html" },
     { tittel: "Alle innlegg", lenke: "arkiv.html" },
   ];
@@ -31,6 +32,8 @@
     .catch(() => { _innlegg = []; renderHubIfReady(); });
 
   let _innhold = null;
+  let _defaultForfatter = null;
+
   if (inPreview) {
     window.addEventListener("message", (e) => {
       const m = e.data;
@@ -95,8 +98,15 @@
     if (info.heroBilde && /^https?:/i.test(info.heroBilde)) setAttr("ogImage", "content", info.heroBilde);
 
     const cta = $("[data-cta]"); if (cta && info.ctaTekst) cta.textContent = info.ctaTekst;
+    _defaultForfatter = info.forfatter || null;
 
     renderMeny(D.meny, D.temaer, D.serier);
+
+    const heroByline = $("#heroByline");
+    if (heroByline && info.forfatter) {
+      heroByline.textContent = "Skrevet av " + info.forfatter;
+      heroByline.hidden = false;
+    }
 
     const hero = $(".hero");
     if (hero) {
@@ -121,7 +131,7 @@
 
     const kbtn = $("#kontaktBtn");
     if (kbtn) {
-      if (info.epost) { kbtn.href = "mailto:" + info.epost; kbtn.textContent = "eller send meg en e-post"; kbtn.hidden = false; }
+      if (info.epost) { kbtn.href = "mailto:" + info.epost; kbtn.textContent = "Send e-post direkte"; kbtn.hidden = false; }
       else kbtn.hidden = true;
     }
 
@@ -168,15 +178,32 @@
       });
     }
 
-    hubBlocks.push({
-      eyebrow: "Siste innlegg",
-      tittel: "Siste publiseringer",
-      tekst: siste.length
-        ? "Det nyeste først: " + siste.map((p) => p.tittel).slice(0, 2).join(", ") + (siste.length > 2 ? " og mer." : ".")
-        : "De nyeste publiseringene, uansett serie eller tema.",
-      knapp: "Se alle innlegg",
-      url: "arkiv.html",
-    });
+    // Siste innlegg: vis det nyeste som et ekte innleggskort
+    if (siste[0]) {
+      const p = siste[0];
+      const url = "innlegg.html?slug=" + encodeURIComponent(p.slug);
+      const serieLabel = p.serie ? (p.serie + (p.delnr ? " · del " + p.delnr : "")) : "";
+      const meta = [p.dato ? fmtDato(p.dato) : "", serieLabel || p.tema || ""].filter(Boolean).join(" · ");
+      hubBlocks.push({
+        type: "post",
+        eyebrow: "Siste innlegg",
+        meta,
+        tittel: p.tittel,
+        tekst: p.ingress || "",
+        knapp: "Les innlegget",
+        url,
+        secondaryKnapp: "Se alle innlegg",
+        secondaryUrl: "arkiv.html",
+      });
+    } else {
+      hubBlocks.push({
+        eyebrow: "Siste innlegg",
+        tittel: "Siste publiseringer",
+        tekst: "De nyeste publiseringene, uansett serie eller tema.",
+        knapp: "Se alle innlegg",
+        url: "arkiv.html",
+      });
+    }
 
     if (temaer.length) {
       hubBlocks.push({
@@ -189,11 +216,15 @@
     }
 
     grid.innerHTML = hubBlocks.map((b) => `
-      <article class="hub-card">
+      <article class="hub-card ${b.type === "post" ? "hub-card--post" : ""}">
         <p class="eyebrow">${esc(b.eyebrow)}</p>
+        ${b.meta ? `<p class="hub-card__meta">${esc(b.meta)}</p>` : ""}
         <h2>${esc(b.tittel)}</h2>
-        <p>${esc(b.tekst)}</p>
-        <a href="${b.url}" class="btn">${esc(b.knapp)}</a>
+        ${b.tekst ? `<p>${esc(b.tekst)}</p>` : ""}
+        <div class="hub-card__actions">
+          <a href="${b.url}" class="btn">${esc(b.knapp)}</a>
+          ${b.secondaryKnapp ? `<a href="${b.secondaryUrl}" class="hub-card__secondary">${esc(b.secondaryKnapp)} &rarr;</a>` : ""}
+        </div>
       </article>
     `).join("");
 

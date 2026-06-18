@@ -10,6 +10,7 @@
   const DEFAULT_MENY = [
     { tittel: "Start her", lenke: "om.html" },
     { tittel: "Modum framover", lenke: "serie.html?navn=Modum framover" },
+    { tittel: "Om siden", lenke: "om.html" },
     { tittel: "Temaoversikt", lenke: "temaer.html" },
     { tittel: "Alle innlegg", lenke: "arkiv.html" },
   ];
@@ -77,12 +78,15 @@
         : "";
       const serieLabel = p.serie ? (p.serie + (p.delnr ? " · del " + p.delnr : "")) : "";
       const meta = [p.dato ? fmtDato(p.dato) : "", serieLabel || p.tema || ""].filter(Boolean).join(" · ");
+      const author = p.forfatter || opts.defaultForfatter;
+      const byline = author ? `<p class="post-card__byline">Av <strong>${esc(author)}</strong></p>` : "";
       return `
         <article class="post-card" ${p.bilde ? "" : 'style="grid-template-columns:1fr"'}>
           ${media}
           <div>
             ${meta ? `<p class="post-card__date">${esc(meta)}</p>` : ""}
             <h3><a href="${url}">${esc(p.tittel)}</a></h3>
+            ${byline}
             ${p.ingress ? `<p>${esc(p.ingress)}</p>` : ""}
             <a class="post-card__more" href="${url}">Les mer &rarr;</a>
           </div>
