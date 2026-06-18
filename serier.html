@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Serier</title>
+  <meta name="description" content="Alle serier på ModumVil.no - tematiske artikkelserier om framtidens Modum." id="metaDesc" />
+  <link rel="canonical" href="https://modumvil.no/serier.html" id="canonical" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Serier" id="ogTitle" />
+  <meta property="og:url" content="https://modumvil.no/serier.html" id="ogUrl" />
+  <meta property="og:locale" content="nb_NO" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a href="#hovedinnhold" class="skip-link">Hopp til innhold</a>
+
+  <header class="nav" id="top">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand" data-navn>Politisk blogg</a>
+      <nav class="nav__links" id="navLinks" aria-label="Hovedmeny">
+        <a href="bidra.html" class="btn" id="navCta">Send innspill</a>
+      </nav>
+      <button class="nav__toggle" id="navToggle" aria-label="Åpne meny" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="hovedinnhold">
+    <section class="section section--wide">
+      <a href="index.html" class="article__back">&larr; Til forsiden</a>
+      <div class="rule"></div>
+      <h2>Serier</h2>
+      <p class="hero__lead" style="text-align:left;margin-left:0">Tematiske artikkelserier om framtidens Modum. Klikk en serie for å se alle innleggene i den.</p>
+      <div class="temaer" id="serierGrid" style="margin-top:2rem"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__brand" data-navn>Politisk blogg</p>
+    <p class="footer__disclaimer">Innlegg uttrykker forfatterens egne meninger.</p>
+    <p class="footer__credit">Nettside av <a href="https://helene.cloud" target="_blank" rel="noopener">helene.cloud</a></p>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/serier.js"></script>
+</body>
+</html>

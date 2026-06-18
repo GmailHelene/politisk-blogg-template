@@ -9,8 +9,7 @@ window.SITE_DATA = {
   },
   meny: [
     { tittel: "Start her", lenke: "om.html" },
-    { tittel: "Modum framover", lenke: "serie.html?navn=Modum framover" },
-    { tittel: "Om siden", lenke: "om.html" },
+    { tittel: "Serier", lenke: "#serier" },
     { tittel: "Temaoversikt", lenke: "temaer.html" },
     { tittel: "Alle innlegg", lenke: "arkiv.html" }
   ],

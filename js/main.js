@@ -8,8 +8,7 @@
 
   const DEFAULT_MENY = [
     { tittel: "Start her", lenke: "om.html" },
-    { tittel: "Modum framover", lenke: "serie.html?navn=Modum framover" },
-    { tittel: "Om siden", lenke: "om.html" },
+    { tittel: "Serier", lenke: "#serier" },
     { tittel: "Temaoversikt", lenke: "temaer.html" },
     { tittel: "Alle innlegg", lenke: "arkiv.html" },
   ];
@@ -52,7 +51,7 @@
   function ddConfig(lenke, temaer, serier) {
     const ln = norm(lenke);
     if (ln === "#temaer") return { list: temaer, item: "tema.html?navn=", all: "temaer.html", allTekst: "Se hele temaoversikten" };
-    if (ln === "#serier") return { list: serier, item: "serie.html?navn=", all: "#serier", allTekst: "Se alle serier" };
+    if (ln === "#serier") return { list: serier, item: "serie.html?navn=", all: "serier.html", allTekst: "Se alle serier" };
     return null;
   }
   function renderMeny(meny, temaer, serier) {

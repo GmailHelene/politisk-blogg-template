@@ -18,7 +18,7 @@
   function ddConfig(lenke, temaer, serier) {
     const ln = norm(lenke);
     if (ln === "#temaer") return { list: temaer, item: "tema.html?navn=", all: "#temaer", allTekst: "Se hele temaoversikten" };
-    if (ln === "#serier") return { list: serier, item: "serie.html?navn=", all: "#serier", allTekst: "Se alle serier" };
+    if (ln === "#serier") return { list: serier, item: "serie.html?navn=", all: "serier.html", allTekst: "Se alle serier" };
     return null;
   }
   function renderMeny(meny, temaer, serier) {

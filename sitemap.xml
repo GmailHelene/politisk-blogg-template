@@ -4,6 +4,7 @@
   <url><loc>https://modumvil.no/om.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://modumvil.no/arkiv.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://modumvil.no/temaer.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://modumvil.no/serier.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://modumvil.no/bidra.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://modumvil.no/serie.html?navn=Modum%20framover</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://modumvil.no/tema.html?navn=Vekst%20og%20tilflytting</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
