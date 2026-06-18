@@ -126,6 +126,13 @@
       }
     }
 
+    // Info-boks under hero (skjules om både tittel og tekst er tomme)
+    const omSec = $("#om");
+    const omT = $("[data-om-tittel]"), omTekst = $("[data-om-tekst]");
+    if (omT && D.omTittel) omT.textContent = D.omTittel;
+    if (omTekst) omTekst.innerHTML = D.omTekst || "";
+    if (omSec) omSec.hidden = !(D.omTittel || D.omTekst);
+
     const mTittel = $("[data-manifest-tittel]"); if (mTittel && D.manifestTittel) mTittel.textContent = D.manifestTittel;
     const manifest = $("[data-manifest]"); if (manifest) manifest.innerHTML = D.manifest || "";
 

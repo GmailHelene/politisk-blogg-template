@@ -12,6 +12,8 @@ window.SITE_DATA = {
     { tittel: "Manifestet", lenke: "#manifest" },
     { tittel: "Temaoversikt", lenke: "#temaer" }
   ],
+  omTittel: "Hva er ModumVil.no?",
+  omTekst: "<p>En kort forklaring av hva siden er. Rediger denne i portalen.</p>",
   manifestTittel: "Dette handler om mer enn valgkamp",
   manifest: "<p>Skriv manifestet ditt her, i portalen.</p>",
   temaer: [],

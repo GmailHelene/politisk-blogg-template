@@ -84,6 +84,12 @@ img { max-width: 100%; display: block; }
 .rule { width: 46px; height: 3px; background: var(--accent); margin-bottom: 1.4rem; }
 .section h2 { font-size: clamp(1.58rem, 3.3vw, 2.16rem); margin-bottom: 1.4rem; }
 
+/* Info-boks under hero */
+.om { padding-top: 3.5rem; padding-bottom: 1rem; }
+.om-box { background: var(--bg-alt); border: 1px solid var(--line); border-radius: 12px; padding: 2rem 2.2rem; }
+.om-box h2 { font-size: clamp(1.35rem, 3vw, 1.8rem); margin-bottom: .8rem; }
+.om-box .prose p:last-child { margin-bottom: 0; }
+
 /* Manifest rik tekst */
 .prose { color: var(--ink); }
 .prose h3 { font-size: 1.6rem; margin: 2.2rem 0 1rem; }
