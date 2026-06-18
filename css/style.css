@@ -39,6 +39,8 @@ img { max-width: 100%; display: block; }
 .nav__links { display: flex; align-items: center; gap: 1.8rem; }
 .nav__links a { font-size: .9rem; color: var(--ink-soft); }
 .nav__links a:hover { color: var(--ink); }
+/* CTA-knappen i menyen skal beholde hvit tekst (ikke arve menylenke-fargen) */
+.nav__links a.btn, .nav__links a.btn:hover { color: #fff; }
 .nav__toggle { display: none; background: none; border: 0; cursor: pointer; padding: 8px; }
 .nav__toggle span { display: block; width: 24px; height: 2px; background: var(--ink); margin: 5px 0; }
 
@@ -52,6 +54,7 @@ img { max-width: 100%; display: block; }
 .nav__dd-panel.open { display: block; }
 .nav__dd-panel a { display: block; padding: .55rem .7rem; border-radius: 5px; font-size: .92rem; color: var(--ink-soft); }
 .nav__dd-panel a:hover { background: var(--bg-alt); color: var(--ink); }
+.nav__dd-panel .nav__dd-all { font-weight: 600; color: var(--accent-deep); border-bottom: 1px solid var(--line); border-radius: 0; margin-bottom: .25rem; }
 
 /* Forside / hero */
 .hero { text-align: center; padding: 4.5rem 1.5rem 2rem; }

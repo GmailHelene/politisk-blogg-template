@@ -32,6 +32,11 @@
         btn.innerHTML = esc(it.tittel) + ' <span class="caret" aria-hidden="true">&#9662;</span>';
         const panel = document.createElement("div");
         panel.className = "nav__dd-panel";
+        const all = document.createElement("a");
+        all.href = "index.html#temaer";
+        all.className = "nav__dd-all";
+        all.textContent = "Se hele temaoversikten";
+        panel.appendChild(all);
         temaer.forEach((t) => {
           if (!t || !t.tittel) return;
           const a = document.createElement("a");
