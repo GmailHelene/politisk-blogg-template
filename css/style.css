@@ -93,8 +93,8 @@ img { max-width: 100%; display: block; }
 .rule { width: 46px; height: 3px; background: var(--accent); margin-bottom: 1.4rem; }
 .section h2 { font-size: clamp(1.58rem, 3.3vw, 2.16rem); margin-bottom: 1.4rem; }
 
-/* Hub-kort på forsiden (3 inngangsblokker) */
-.hub { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
+/* Hub-kort på forsiden (4 inngangsblokker, 2x2 på desktop) */
+.hub { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.6rem; }
 .hub-card { background: var(--bg-alt); border: 1px solid var(--line); border-radius: 12px; padding: 2rem 1.8rem; display: flex; flex-direction: column; gap: .6rem; }
 .hub-card .eyebrow { font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-deep); font-weight: 600; margin: 0; }
 .hub-card h2 { font-size: 1.55rem; margin: .2rem 0 .3rem; line-height: 1.15; }

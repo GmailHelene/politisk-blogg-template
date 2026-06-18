@@ -85,7 +85,7 @@
     const info = D.info || {};
     $$("[data-navn]").forEach((el) => { if (info.navn) el.textContent = info.navn; });
     if (info.navn) document.title = info.navn;
-    const setText = (sel, t) => { const el = $(sel); if (t != null && t !== "") el.textContent = t; };
+    const setText = (sel, t) => { const el = $(sel); if (el && t != null && t !== "") el.textContent = t; };
     setText("[data-tittel]", info.tittel);
     setText("[data-ingress]", info.ingress);
     // Meta + OG
@@ -125,14 +125,7 @@
     const manifest = $("[data-manifest]"); if (manifest) manifest.innerHTML = D.manifest || "";
     const manifestSec = $("#manifest"); if (manifestSec) manifestSec.hidden = !(D.manifest && D.manifest.replace(/<[^>]+>/g, "").trim().length);
 
-    setText("[data-kontakt-tittel]", D.kontaktTittel);
-    setText("[data-kontakt-tekst]", D.kontaktTekst);
-
-    const kbtn = $("#kontaktBtn");
-    if (kbtn) {
-      if (info.epost) { kbtn.href = "mailto:" + info.epost; kbtn.textContent = "Send e-post direkte"; kbtn.hidden = false; }
-      else kbtn.hidden = true;
-    }
+    // kontakt-seksjon er fjernet pa forsiden - Send innspill er na et hub-kort
 
     // JSON-LD: WebSite + Person
     setLd("ldWebsite", {
@@ -206,13 +199,22 @@
 
     if (temaer.length) {
       hubBlocks.push({
-        eyebrow: "Temaoversikt",
-        tittel: "Finn etter sak",
-        tekst: "Bla i innlegg sortert etter tema: " + temaer.slice(0, 4).map((t) => t.tittel).join(", ") + (temaer.length > 4 ? " og flere." : "."),
+        eyebrow: "Tema",
+        tittel: "Finn innlegg etter tema",
+        tekst: "Les innlegg sortert etter sakene du bryr deg mest om.",
         knapp: "Utforsk temaene",
         url: "temaer.html",
       });
     }
+
+    // Send innspill - fjerde hub-blokk (erstatter den mørke kontakt-seksjonen)
+    hubBlocks.push({
+      eyebrow: "Bidra",
+      tittel: "Send innspill",
+      tekst: "Har du tanker om hvordan Modum bør utvikles? Send innspill, forslag eller gjesteinnlegg.",
+      knapp: "Send innspill",
+      url: "bidra.html",
+    });
 
     grid.innerHTML = hubBlocks.map((b) => `
       <article class="hub-card ${b.type === "post" ? "hub-card--post" : ""}">
