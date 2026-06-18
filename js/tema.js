@@ -10,6 +10,7 @@
     { tittel: "Innlegg", lenke: "#innlegg" },
     { tittel: "Manifestet", lenke: "#manifest" },
     { tittel: "Temaoversikt", lenke: "#temaer" },
+    { tittel: "Om siden", lenke: "om.html" },
   ];
 
   function fmtDato(d) {

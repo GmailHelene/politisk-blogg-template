@@ -11,6 +11,7 @@
     { tittel: "Innlegg", lenke: "#innlegg" },
     { tittel: "Manifestet", lenke: "#manifest" },
     { tittel: "Temaoversikt", lenke: "#temaer" },
+    { tittel: "Om siden", lenke: "om.html" },
   ];
 
   function fmtDato(d) {
@@ -153,7 +154,7 @@
 
     const kbtn = $("#kontaktBtn");
     if (kbtn) {
-      if (info.epost) { kbtn.href = "mailto:" + info.epost; kbtn.textContent = "Send meg en e-post"; kbtn.hidden = false; }
+      if (info.epost) { kbtn.href = "mailto:" + info.epost; kbtn.textContent = "eller send meg en e-post"; kbtn.hidden = false; }
       else kbtn.hidden = true;
     }
   }

@@ -9,6 +9,7 @@
     { tittel: "Innlegg", lenke: "#innlegg" },
     { tittel: "Manifestet", lenke: "#manifest" },
     { tittel: "Temaoversikt", lenke: "#temaer" },
+    { tittel: "Om siden", lenke: "om.html" },
   ];
 
   const norm = (s) => String(s == null ? "" : s).trim().toLowerCase();

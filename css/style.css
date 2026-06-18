@@ -130,6 +130,25 @@ img { max-width: 100%; display: block; }
 .article__body ul { margin: 0 0 1.2rem 1.3rem; }
 .article__body a { color: var(--accent-deep); text-decoration: underline; }
 
+/* Skjema (gjesteinnlegg) */
+.skjema { margin-top: 2rem; display: grid; gap: 1.2rem; }
+.skjema__hp { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skjema__felt { display: grid; gap: .4rem; }
+.skjema__felt > span { font-weight: 600; font-size: .95rem; }
+.skjema__felt small { color: var(--ink-soft); font-size: .82rem; }
+.skjema input[type="text"], .skjema input[type="email"], .skjema textarea {
+  width: 100%; font-family: var(--body); font-size: 1rem; color: var(--ink);
+  background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: .7rem .8rem;
+}
+.skjema input:focus, .skjema textarea:focus { outline: none; border-color: var(--accent); }
+.skjema textarea { resize: vertical; min-height: 180px; line-height: 1.6; }
+.skjema__samtykke { display: flex; gap: .6rem; align-items: flex-start; font-size: .95rem; color: var(--ink-soft); }
+.skjema__samtykke input { margin-top: .25rem; }
+.skjema__feil { color: #b3331b; font-size: .95rem; }
+.skjema__takk { margin-top: 2rem; background: var(--bg-alt); border: 1px solid var(--line); border-radius: 12px; padding: 2rem; }
+.skjema__takk h2 { font-size: 1.6rem; margin-bottom: .6rem; }
+.skjema__takk .btn { margin-top: 1rem; }
+
 /* Kontakt-CTA */
 .cta { background: var(--dark); color: #f4efe8; text-align: center; padding: 5rem 1.5rem; }
 .cta__inner { max-width: 560px; margin: 0 auto; }

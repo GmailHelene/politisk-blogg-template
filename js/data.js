@@ -10,10 +10,13 @@ window.SITE_DATA = {
   meny: [
     { tittel: "Innlegg", lenke: "#innlegg" },
     { tittel: "Manifestet", lenke: "#manifest" },
-    { tittel: "Temaoversikt", lenke: "#temaer" }
+    { tittel: "Temaoversikt", lenke: "#temaer" },
+    { tittel: "Om siden", lenke: "om.html" }
   ],
   omTittel: "Hva er ModumVil.no?",
   omTekst: "<p>En kort forklaring av hva siden er. Rediger denne i portalen.</p>",
+  omSiden: "<p>Innholdet på Om siden-siden redigeres i portalen.</p>",
+  bidraTekst: "<p>Her kan du sende inn et gjesteinnlegg.</p>",
   manifestTittel: "Dette handler om mer enn valgkamp",
   manifest: "<p>Skriv manifestet ditt her, i portalen.</p>",
   temaer: [],
