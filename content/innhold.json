@@ -9,10 +9,10 @@
     "facebook": ""
   },
   "meny": [
-    { "tittel": "Innlegg", "lenke": "#innlegg" },
-    { "tittel": "Manifestet", "lenke": "#manifest" },
+    { "tittel": "Start her", "lenke": "om.html" },
+    { "tittel": "Serier", "lenke": "#serier" },
     { "tittel": "Temaoversikt", "lenke": "#temaer" },
-    { "tittel": "Om siden", "lenke": "om.html" }
+    { "tittel": "Innlegg", "lenke": "#innlegg" }
   ],
   "omTittel": "Hva er ModumVil.no?",
   "omTekst": "<p>ModumVil.no er en politisk blogg om framtidens Modum. Her vil jeg publisere egne innlegg, temaserier og etter hvert gjesteinnlegg fra folk som har tanker om hvordan kommunen vår bør utvikles. Første serie heter <em>Modum framover</em> og handler om vekst, tilflytting, skole, helse, næringsliv, kommuneøkonomi, tettsteder, kultur og frivillighet.</p>",
@@ -20,6 +20,9 @@
   "bidraTekst": "<p>Har du tanker om hvordan Modum bør utvikles? Her kan du sende inn et gjesteinnlegg. Jeg leser gjennom alt som kommer inn, og publiserer de innleggene som passer. Du beholder navnet ditt på det du skriver.</p>",
   "manifestTittel": "Dette handler om mer enn valgkamp",
   "manifest": "<p><em>Vi kan fortsette omtrent som før. Litt justering her. Litt kutt der. Eller vi kan gjøre noe langt mer krevende. Vi kan bestemme oss for en retning. Ikke bare for neste valg, men for de neste 10, 20 og 30 årene.</em></p><h3>Vi må slutte å drive kommunen fra sak til sak</h3><p>Modum har mye å være stolt av. Vi har sterke lokalsamfunn. Vi har naturen, idretten, kulturen og frivilligheten. Vi har dugnadsånden. Vi har Vikersund, Åmot, Geithus og bygdene rundt, med hver sine kvaliteter og muligheter.</p><p>Men vi har også store utfordringer:</p><ul><li>Kommuneøkonomien er presset.</li><li>Flere bygg krever store investeringer.</li><li>Vi blir flere eldre, og færre yrkesaktive per pensjonist.</li><li>Mange unge voksne flytter ut og finner ikke veien tilbake.</li></ul><p>Næringslivet trenger raskere prosesser og tydeligere samarbeid. Skolen trenger ro, kvalitet og tydelige prioriteringer. Ungdom trenger møteplasser, trygghet og voksne som ser dem. Og innbyggerne trenger politikere som tør å si mer enn at vi skal se på saken.</p><p>Derfor mener jeg Modum trenger noe mer enn enkeltsaker. <strong>Vi trenger en samlet retning.</strong></p><h3>Spørsmålet er ikke bare hva vi har råd til</h3><p>I lokalpolitikken blir nesten alt til slutt et spørsmål om penger. Det er naturlig. Kommunen skal drives ansvarlig. Vi skal ikke love mer enn vi kan holde, og ikke skyve regningen foran oss.</p><p>Men hvis det eneste spørsmålet vi stiller er hva vi har råd til, blir politikken fort liten. Da handler alt om å fordele knapphet. Jeg mener vi også må stille et annet spørsmål: Hva må vi skape for å få råd til mer?</p>",
+  "serier": [
+    { "tittel": "Modum framover", "beskrivelse": "En serie i 10-12 deler om hvilken retning Modum bør ta: vekst, tilflytting, skole, helse, næringsliv, kommuneøkonomi, tettsteder, kultur og frivillighet." }
+  ],
   "temaer": [
     { "tittel": "Vekst og tilflytting", "beskrivelse": "Hvordan Modum kan bli en mer attraktiv kommune for unge voksne, barnefamilier og hjemflyttere." },
     { "tittel": "Næringsliv og arbeidsplasser", "beskrivelse": "Hvordan kommunen kan bli mer offensiv, mer næringsvennlig og enklere å samarbeide med." },

@@ -6,33 +6,38 @@
   const norm = (s) => String(s == null ? "" : s).trim().toLowerCase();
 
   const DEFAULT_MENY = [
-    { tittel: "Innlegg", lenke: "#innlegg" },
-    { tittel: "Manifestet", lenke: "#manifest" },
+    { tittel: "Start her", lenke: "om.html" },
+    { tittel: "Serier", lenke: "#serier" },
     { tittel: "Temaoversikt", lenke: "#temaer" },
-    { tittel: "Om siden", lenke: "om.html" },
+    { tittel: "Innlegg", lenke: "#innlegg" },
   ];
 
-  function renderMeny(meny, temaer) {
+  const menyHref = (lenke) => ((lenke || "#").charAt(0) === "#" ? "index.html" + lenke : (lenke || "#"));
+  function ddConfig(lenke, temaer, serier) {
+    const ln = norm(lenke);
+    if (ln === "#temaer") return { list: temaer, item: "tema.html?navn=", all: "#temaer", allTekst: "Se hele temaoversikten" };
+    if (ln === "#serier") return { list: serier, item: "serie.html?navn=", all: "#serier", allTekst: "Se alle serier" };
+    return null;
+  }
+  function renderMeny(meny, temaer, serier) {
     const nav = $("#navLinks"), cta = $("#navCta");
     if (!nav || !cta) return;
     Array.from(nav.children).forEach((c) => { if (c !== cta) c.remove(); });
     const items = Array.isArray(meny) && meny.length ? meny : DEFAULT_MENY;
-    const hasTemaer = Array.isArray(temaer) && temaer.length;
     items.forEach((it) => {
       if (!it || !it.tittel) return;
-      if (norm(it.lenke) === "#temaer" && hasTemaer) {
-        const dd = document.createElement("div"); dd.className = "nav__dd";
+      const dd = ddConfig(it.lenke, temaer, serier);
+      if (dd && Array.isArray(dd.list) && dd.list.length) {
+        const wrap = document.createElement("div"); wrap.className = "nav__dd";
         const btn = document.createElement("button"); btn.type = "button"; btn.className = "nav__dd-toggle"; btn.setAttribute("aria-expanded", "false");
         btn.innerHTML = esc(it.tittel) + ' <span class="caret" aria-hidden="true">&#9662;</span>';
         const panel = document.createElement("div"); panel.className = "nav__dd-panel";
-        const all = document.createElement("a"); all.href = "index.html#temaer"; all.className = "nav__dd-all"; all.textContent = "Se hele temaoversikten"; panel.appendChild(all);
-        temaer.forEach((t) => { if (!t || !t.tittel) return; const a = document.createElement("a"); a.href = "tema.html?navn=" + encodeURIComponent(t.tittel); a.textContent = t.tittel; panel.appendChild(a); });
+        const all = document.createElement("a"); all.className = "nav__dd-all"; all.href = menyHref(dd.all); all.textContent = dd.allTekst; panel.appendChild(all);
+        dd.list.forEach((t) => { if (!t || !t.tittel) return; const a = document.createElement("a"); a.href = dd.item + encodeURIComponent(t.tittel); a.textContent = t.tittel; panel.appendChild(a); });
         btn.addEventListener("click", (e) => { e.stopPropagation(); const open = panel.classList.toggle("open"); btn.setAttribute("aria-expanded", String(open)); });
-        dd.appendChild(btn); dd.appendChild(panel); nav.insertBefore(dd, cta);
+        wrap.appendChild(btn); wrap.appendChild(panel); nav.insertBefore(wrap, cta);
       } else {
-        const a = document.createElement("a");
-        a.href = (it.lenke || "#").charAt(0) === "#" ? "index.html" + it.lenke : (it.lenke || "#");
-        a.textContent = it.tittel; nav.insertBefore(a, cta);
+        const a = document.createElement("a"); a.href = menyHref(it.lenke); a.textContent = it.tittel; nav.insertBefore(a, cta);
       }
     });
   }
@@ -45,11 +50,11 @@
     .then((D) => {
       const info = (D && D.info) || {};
       if (info.navn) $$("[data-navn]").forEach((el) => (el.textContent = info.navn));
-      renderMeny(D && D.meny, D && D.temaer);
+      renderMeny(D && D.meny, D && D.temaer, D && D.serier);
       const intro = $("[data-bidra-tekst]");
       if (intro && D && D.bidraTekst) intro.innerHTML = D.bidraTekst;
     })
-    .catch(() => { renderMeny(null, null); });
+    .catch(() => { renderMeny(null, null, null); });
 
   // Innsending via Netlify Forms (AJAX, så brukeren blir på siden).
   const form = $("#bidraForm");

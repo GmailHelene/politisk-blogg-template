@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tema</title>
+  <title>Serie</title>
   <meta name="description" content="" id="metaDesc" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,12 +28,13 @@
 
   <main id="hovedinnhold">
     <section class="section section--wide">
-      <a href="index.html#temaer" class="article__back">&larr; Alle temaer</a>
+      <a href="index.html#serier" class="article__back">&larr; Alle serier</a>
       <div class="rule"></div>
-      <h2 id="temaTittel">Tema</h2>
-      <p id="temaIntro" class="hero__lead" style="text-align:left;margin-left:0"></p>
-      <div class="posts" id="postsList" style="margin-top:2rem"></div>
-      <p id="postsEmpty" class="hero__lead" style="text-align:left;margin-left:0" hidden>Ingen innlegg i dette temaet ennå.</p>
+      <p class="post-card__date" id="serieEtikett">Serie</p>
+      <h2 id="serieTittel">Serie</h2>
+      <p id="serieIntro" class="hero__lead" style="text-align:left;margin-left:0"></p>
+      <ol class="posts posts--serie" id="postsList" style="margin-top:2rem"></ol>
+      <p id="postsEmpty" class="hero__lead" style="text-align:left;margin-left:0" hidden>Ingen innlegg i denne serien ennå.</p>
     </section>
   </main>
 
@@ -43,6 +44,6 @@
   </footer>
 
   <script src="js/data.js"></script>
-  <script src="js/tema.js"></script>
+  <script src="js/serie.js"></script>
 </body>
 </html>
