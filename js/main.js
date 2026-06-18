@@ -115,10 +115,15 @@
 
     renderMeny(D.meny, D.temaer);
 
-    const heroMedia = $("#heroMedia");
-    if (heroMedia) {
-      if (info.heroBilde) { heroMedia.innerHTML = `<img src="${esc(info.heroBilde)}" alt="${esc(info.tittel || "Forsidebilde")}">`; heroMedia.hidden = false; }
-      else heroMedia.hidden = true;
+    const hero = $(".hero");
+    if (hero) {
+      if (info.heroBilde) {
+        hero.style.backgroundImage = `url("${String(info.heroBilde).replace(/"/g, "%22")}")`;
+        hero.classList.add("hero--bilde");
+      } else {
+        hero.style.backgroundImage = "";
+        hero.classList.remove("hero--bilde");
+      }
     }
 
     const mTittel = $("[data-manifest-tittel]"); if (mTittel && D.manifestTittel) mTittel.textContent = D.manifestTittel;
