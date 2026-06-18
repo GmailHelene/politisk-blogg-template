@@ -5,11 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Innlegg</title>
   <meta name="description" content="" id="metaDesc" />
+  <link rel="canonical" href="" id="canonical" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="" id="ogTitle" />
   <meta property="og:description" content="" id="ogDesc" />
   <meta property="og:image" content="" id="ogImage" />
+  <meta property="og:url" content="" id="ogUrl" />
+  <meta property="og:locale" content="nb_NO" />
   <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json" id="ldArticle"></script>
+  <script type="application/ld+json" id="ldBreadcrumb"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
@@ -40,6 +45,32 @@
       <p class="article__lead" id="postLead" hidden></p>
       <div class="article__media" id="postMedia" hidden></div>
       <div class="article__body" id="postBody"></div>
+
+      <section class="kommentar-seksjon" aria-labelledby="kommentar-tittel">
+        <div class="rule"></div>
+        <h2 id="kommentar-tittel">Kommentarer</h2>
+        <ul class="kommentarer" id="kommentarListe"></ul>
+        <p id="kommentarTom" class="hero__lead" style="text-align:left;margin-left:0" hidden>Ingen kommentarer ennå. Vær den første!</p>
+
+        <h3 style="margin-top:2.5rem">Legg igjen en kommentar</h3>
+        <p style="color:var(--ink-soft);font-size:.95rem">Kommentarer leses gjennom før de publiseres. E-posten din vises ikke.</p>
+
+        <form name="kommentar" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="kommentarForm" class="skjema">
+          <input type="hidden" name="form-name" value="kommentar" />
+          <input type="hidden" name="innlegg-slug" id="kommentarSlug" />
+          <input type="hidden" name="innlegg-tittel" id="kommentarTittel" />
+          <p class="skjema__hp"><label>Ikke fyll ut: <input name="bot-field" /></label></p>
+          <label class="skjema__felt"><span>Navn</span><input type="text" name="navn" required /></label>
+          <label class="skjema__felt"><span>E-post (vises ikke)</span><input type="email" name="epost" required /></label>
+          <label class="skjema__felt"><span>Kommentar</span><textarea name="kommentar" rows="5" required></textarea></label>
+          <button type="submit" class="btn">Send inn kommentar</button>
+          <p id="kommentarFeil" class="skjema__feil" hidden>Noe gikk galt. Prøv igjen.</p>
+        </form>
+        <div id="kommentarTakk" class="skjema__takk" hidden style="margin-top:1.5rem">
+          <h3>Takk for kommentaren!</h3>
+          <p>Jeg leser gjennom så snart jeg kan, og publiserer den om den passer.</p>
+        </div>
+      </section>
     </article>
 
     <section class="cta">

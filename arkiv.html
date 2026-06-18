@@ -3,20 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Om siden</title>
-  <meta name="description" content="Hva ModumVil.no er, hvem som står bak, og hvordan du kan bidra." />
-  <link rel="canonical" href="https://modumvil.no/om.html" />
+  <title>Alle innlegg</title>
+  <meta name="description" content="Alle innleggene på ModumVil.no - politiske tanker om framtidens Modum, sortert med nyeste øverst." id="metaDesc" />
+  <link rel="canonical" href="https://modumvil.no/arkiv.html" id="canonical" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Om siden - ModumVil.no" />
-  <meta property="og:description" content="Hva ModumVil.no er, hvem som står bak, og hvordan du kan bidra." />
-  <meta property="og:url" content="https://modumvil.no/om.html" />
+  <meta property="og:title" content="Alle innlegg" id="ogTitle" />
+  <meta property="og:url" content="https://modumvil.no/arkiv.html" id="ogUrl" />
   <meta property="og:locale" content="nb_NO" />
-  <script type="application/ld+json" id="ldFaq"></script>
-  <script type="application/ld+json" id="ldBreadcrumb"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -35,13 +33,13 @@
   </header>
 
   <main id="hovedinnhold">
-    <section class="article">
+    <section class="section section--wide">
       <a href="index.html" class="article__back">&larr; Til forsiden</a>
       <div class="rule"></div>
-      <h1>Om siden</h1>
-      <div class="article__body" data-om-siden>
-        <p>Laster &hellip;</p>
-      </div>
+      <h2>Alle innlegg</h2>
+      <p class="hero__lead" style="text-align:left;margin-left:0">Nyeste øverst. Filtrer etter tema eller serie i menyen øverst.</p>
+      <div class="posts" id="postsList" style="margin-top:2rem"></div>
+      <p id="postsEmpty" class="hero__lead" style="text-align:left;margin-left:0" hidden>Ingen innlegg ennå.</p>
     </section>
   </main>
 
@@ -51,6 +49,7 @@
   </footer>
 
   <script src="js/data.js"></script>
-  <script src="js/om.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/arkiv.js"></script>
 </body>
 </html>

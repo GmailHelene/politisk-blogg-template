@@ -37,8 +37,10 @@ img { max-width: 100%; display: block; }
 .nav__inner { max-width: 1080px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: .9rem 1.5rem; }
 .nav__brand { font-family: var(--display); font-weight: 700; font-size: 1.25rem; }
 .nav__links { display: flex; align-items: center; gap: 1.8rem; }
-.nav__links a { font-size: .9rem; color: var(--ink-soft); }
-.nav__links a:hover { color: var(--ink); }
+.nav__links a { font-size: .92rem; font-style: normal; font-weight: 500; color: var(--ink); }
+.nav__links a:hover { color: var(--accent-deep); }
+.nav__dd-toggle { color: var(--ink); font-weight: 500; }
+.nav__dd-toggle:hover { color: var(--accent-deep); }
 /* CTA-knappen i menyen skal beholde hvit tekst (ikke arve menylenke-fargen) */
 .nav__links a.btn, .nav__links a.btn:hover { color: #fff; }
 .nav__toggle { display: none; background: none; border: 0; cursor: pointer; padding: 8px; }
@@ -83,6 +85,18 @@ img { max-width: 100%; display: block; }
 .section__inner--wide { max-width: 1080px; }
 .rule { width: 46px; height: 3px; background: var(--accent); margin-bottom: 1.4rem; }
 .section h2 { font-size: clamp(1.58rem, 3.3vw, 2.16rem); margin-bottom: 1.4rem; }
+
+/* Hub-kort på forsiden (3 inngangsblokker) */
+.hub { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
+.hub-card { background: var(--bg-alt); border: 1px solid var(--line); border-radius: 12px; padding: 2rem 1.8rem; display: flex; flex-direction: column; gap: .6rem; }
+.hub-card .eyebrow { font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-deep); font-weight: 600; margin: 0; }
+.hub-card h2 { font-size: 1.55rem; margin: .2rem 0 .3rem; line-height: 1.15; }
+.hub-card p { color: var(--ink-soft); margin: 0; font-size: .98rem; }
+.hub-card .btn { margin-top: auto; align-self: flex-start; }
+@media (max-width: 900px) {
+  .hub { grid-template-columns: 1fr; gap: 1.2rem; }
+  .hub-card { padding: 1.6rem 1.4rem; }
+}
 
 /* Info-boks under hero */
 .om { padding-top: 3.5rem; padding-bottom: 1rem; }
@@ -149,6 +163,15 @@ img { max-width: 100%; display: block; }
 .skjema__takk { margin-top: 2rem; background: var(--bg-alt); border: 1px solid var(--line); border-radius: 12px; padding: 2rem; }
 .skjema__takk h2 { font-size: 1.6rem; margin-bottom: .6rem; }
 .skjema__takk .btn { margin-top: 1rem; }
+
+/* Kommentarer */
+.kommentar-seksjon { margin-top: 3.5rem; }
+.kommentar-seksjon h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 1.4rem; }
+.kommentarer { list-style: none; padding: 0; margin: 0 0 2rem; display: grid; gap: 1.4rem; }
+.kommentar { background: var(--bg-alt); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1.2rem 1.4rem; }
+.kommentar__meta { margin: 0 0 .5rem; font-size: .95rem; color: var(--ink-soft); }
+.kommentar__meta strong { color: var(--ink); }
+.kommentar__tekst { margin: 0; color: var(--ink); }
 
 /* Kontakt-CTA */
 .cta { background: var(--dark); color: #f4efe8; text-align: center; padding: 5rem 1.5rem; }

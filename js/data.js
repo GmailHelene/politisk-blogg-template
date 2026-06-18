@@ -9,9 +9,9 @@ window.SITE_DATA = {
   },
   meny: [
     { tittel: "Start her", lenke: "om.html" },
-    { tittel: "Serier", lenke: "#serier" },
-    { tittel: "Temaoversikt", lenke: "#temaer" },
-    { tittel: "Innlegg", lenke: "#innlegg" }
+    { tittel: "Modum framover", lenke: "serie.html?navn=Modum framover" },
+    { tittel: "Temaoversikt", lenke: "temaer.html" },
+    { tittel: "Alle innlegg", lenke: "arkiv.html" }
   ],
   serier: [{ tittel: "Modum framover", beskrivelse: "En serie om framtidens Modum." }],
   omTittel: "Hva er ModumVil.no?",

@@ -10,9 +10,9 @@
   },
   "meny": [
     { "tittel": "Start her", "lenke": "om.html" },
-    { "tittel": "Serier", "lenke": "#serier" },
-    { "tittel": "Temaoversikt", "lenke": "#temaer" },
-    { "tittel": "Innlegg", "lenke": "#innlegg" }
+    { "tittel": "Modum framover", "lenke": "serie.html?navn=Modum framover" },
+    { "tittel": "Temaoversikt", "lenke": "temaer.html" },
+    { "tittel": "Alle innlegg", "lenke": "arkiv.html" }
   ],
   "omTittel": "Hva er ModumVil.no?",
   "omTekst": "<p>ModumVil.no er en politisk blogg om framtidens Modum. Her vil jeg publisere egne innlegg, temaserier og etter hvert gjesteinnlegg fra folk som har tanker om hvordan kommunen vår bør utvikles. Første serie heter <em>Modum framover</em> og handler om vekst, tilflytting, skole, helse, næringsliv, kommuneøkonomi, tettsteder, kultur og frivillighet.</p>",

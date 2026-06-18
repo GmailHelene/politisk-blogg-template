@@ -1,6 +1,5 @@
-/* Forside: leser content/innhold.json (meny, forside, manifest, temaer, bunntekst)
-   og content/innlegg/index.json (innleggslista). Redigeres via Studio-portalen.
-   Støtter live forhåndsvisning av "rammen" via postMessage. */
+/* Forside: 3-blokks hub (første serie + siste innlegg + temaoversikt).
+   Manifest valgfritt under hub-en. Støtter live forhåndsvisning via postMessage. */
 (function () {
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
@@ -9,9 +8,9 @@
 
   const DEFAULT_MENY = [
     { tittel: "Start her", lenke: "om.html" },
-    { tittel: "Serier", lenke: "#serier" },
-    { tittel: "Temaoversikt", lenke: "#temaer" },
-    { tittel: "Innlegg", lenke: "#innlegg" },
+    { tittel: "Modum framover", lenke: "serie.html?navn=Modum framover" },
+    { tittel: "Temaoversikt", lenke: "temaer.html" },
+    { tittel: "Alle innlegg", lenke: "arkiv.html" },
   ];
 
   function fmtDato(d) {
@@ -24,30 +23,32 @@
 
   const inPreview = window.parent !== window && location.hash.indexOf("preview") !== -1;
 
-  // Innleggslista hentes alltid fra fila.
+  // Innleggslista hentes alltid fra fila (sortert nyeste øverst i index.json).
+  let _innlegg = [];
   fetch("content/innlegg/index.json", { cache: "no-store" })
     .then((r) => (r.ok ? r.json() : []))
-    .then((list) => renderPosts(Array.isArray(list) ? list : (list && list.innlegg) || []))
-    .catch(() => renderPosts([]));
+    .then((list) => { _innlegg = Array.isArray(list) ? list : (list && list.innlegg) || []; renderHubIfReady(); })
+    .catch(() => { _innlegg = []; renderHubIfReady(); });
 
+  let _innhold = null;
   if (inPreview) {
     window.addEventListener("message", (e) => {
       const m = e.data;
-      if (m && m.type === "studioportal-preview") renderChrome(m.content || {});
+      if (m && m.type === "studioportal-preview") { _innhold = m.content || {}; renderChrome(_innhold); renderHubIfReady(); }
     });
     try { window.parent.postMessage({ type: "studioportal-ready" }, "*"); } catch (e) {}
   } else {
     fetch("content/innhold.json", { cache: "no-store" })
       .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
-      .then(renderChrome)
-      .catch(() => renderChrome(window.SITE_DATA || {}));
+      .then((D) => { _innhold = D; renderChrome(D); renderHubIfReady(); })
+      .catch(() => { _innhold = window.SITE_DATA || {}; renderChrome(_innhold); renderHubIfReady(); });
   }
 
-  // Forside: hash-lenker som de er.
+  // Hash-lenker beholdes som de er på forsiden (de scroller).
   const menyHref = (lenke) => lenke || "#";
   function ddConfig(lenke, temaer, serier) {
     const ln = norm(lenke);
-    if (ln === "#temaer") return { list: temaer, item: "tema.html?navn=", all: "#temaer", allTekst: "Se hele temaoversikten" };
+    if (ln === "#temaer") return { list: temaer, item: "tema.html?navn=", all: "temaer.html", allTekst: "Se hele temaoversikten" };
     if (ln === "#serier") return { list: serier, item: "serie.html?navn=", all: "#serier", allTekst: "Se alle serier" };
     return null;
   }
@@ -73,13 +74,8 @@
       }
     });
   }
-  // Lukk åpne dropdowns ved klikk utenfor
   document.addEventListener("click", () => {
-    $$(".nav__dd-panel.open").forEach((p) => {
-      p.classList.remove("open");
-      const b = p.parentElement && p.parentElement.querySelector(".nav__dd-toggle");
-      if (b) b.setAttribute("aria-expanded", "false");
-    });
+    $$(".nav__dd-panel.open").forEach((p) => { p.classList.remove("open"); const b = p.parentElement && p.parentElement.querySelector(".nav__dd-toggle"); if (b) b.setAttribute("aria-expanded", "false"); });
   });
 
   function renderChrome(D) {
@@ -90,9 +86,14 @@
     const setText = (sel, t) => { const el = $(sel); if (t != null && t !== "") el.textContent = t; };
     setText("[data-tittel]", info.tittel);
     setText("[data-ingress]", info.ingress);
-    if (info.tittel) {
-      const meta = $('meta[name="description"]'); if (meta) meta.setAttribute("content", info.ingress || info.tittel);
-    }
+    // Meta + OG
+    const setAttr = (id, attr, val) => { const el = document.getElementById(id); if (el && val) el.setAttribute(attr, val); };
+    const desc = info.ingress || info.tittel || "";
+    const metaDesc = $('meta[name="description"]'); if (metaDesc && desc) metaDesc.setAttribute("content", desc);
+    setAttr("ogTitle", "content", info.navn || info.tittel);
+    setAttr("ogDesc", "content", desc);
+    if (info.heroBilde && /^https?:/i.test(info.heroBilde)) setAttr("ogImage", "content", info.heroBilde);
+
     const cta = $("[data-cta]"); if (cta && info.ctaTekst) cta.textContent = info.ctaTekst;
 
     renderMeny(D.meny, D.temaer, D.serier);
@@ -102,13 +103,9 @@
       if (info.heroBilde) {
         hero.style.backgroundImage = `url("${String(info.heroBilde).replace(/"/g, "%22")}")`;
         hero.classList.add("hero--bilde");
-      } else {
-        hero.style.backgroundImage = "";
-        hero.classList.remove("hero--bilde");
-      }
+      } else { hero.style.backgroundImage = ""; hero.classList.remove("hero--bilde"); }
     }
 
-    // Info-boks under hero (skjules om både tittel og tekst er tomme)
     const omSec = $("#om");
     const omT = $("[data-om-tittel]"), omTekst = $("[data-om-tekst]");
     if (omT && D.omTittel) omT.textContent = D.omTittel;
@@ -117,71 +114,108 @@
 
     const mTittel = $("[data-manifest-tittel]"); if (mTittel && D.manifestTittel) mTittel.textContent = D.manifestTittel;
     const manifest = $("[data-manifest]"); if (manifest) manifest.innerHTML = D.manifest || "";
+    const manifestSec = $("#manifest"); if (manifestSec) manifestSec.hidden = !(D.manifest && D.manifest.replace(/<[^>]+>/g, "").trim().length);
 
     setText("[data-kontakt-tittel]", D.kontaktTittel);
     setText("[data-kontakt-tekst]", D.kontaktTekst);
-
-    const grid = $("#temaerGrid");
-    if (grid && Array.isArray(D.temaer)) {
-      grid.innerHTML = D.temaer.map((t) => {
-        const url = "tema.html?navn=" + encodeURIComponent(t.tittel || "");
-        return `
-        <article class="tema">
-          <h3><a href="${url}">${esc(t.tittel)}</a></h3>
-          <p>${esc(t.beskrivelse)}</p>
-        </article>`;
-      }).join("");
-    }
-
-    const serierSec = $("#serier");
-    const serierGrid = $("#serierGrid");
-    if (serierGrid) {
-      const serier = Array.isArray(D.serier) ? D.serier.filter((s) => s && s.tittel) : [];
-      serierGrid.innerHTML = serier.map((s) => {
-        const url = "serie.html?navn=" + encodeURIComponent(s.tittel);
-        return `
-        <article class="tema">
-          <h3><a href="${url}">${esc(s.tittel)}</a></h3>
-          <p>${esc(s.beskrivelse)}</p>
-        </article>`;
-      }).join("");
-      if (serierSec) serierSec.hidden = serier.length === 0;
-    }
 
     const kbtn = $("#kontaktBtn");
     if (kbtn) {
       if (info.epost) { kbtn.href = "mailto:" + info.epost; kbtn.textContent = "eller send meg en e-post"; kbtn.hidden = false; }
       else kbtn.hidden = true;
     }
+
+    // JSON-LD: WebSite + Person
+    setLd("ldWebsite", {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      url: "https://modumvil.no/",
+      name: info.navn || "ModumVil.no",
+      description: desc,
+      inLanguage: "nb-NO",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: "https://modumvil.no/arkiv.html?q={search_term_string}",
+        "query-input": "required name=search_term_string",
+      },
+    });
   }
 
-  function renderPosts(list) {
-    const wrap = $("#postsList");
-    const empty = $("#postsEmpty");
-    if (!wrap) return;
-    if (!list.length) { wrap.innerHTML = ""; if (empty) empty.hidden = false; return; }
-    if (empty) empty.hidden = true;
-    wrap.innerHTML = list.map((p) => {
-      const url = "innlegg.html?slug=" + encodeURIComponent(p.slug);
-      const media = p.bilde
-        ? `<a class="post-card__media" href="${url}"><img src="${esc(p.bilde)}" alt="${esc(p.tittel || "")}" loading="lazy"></a>`
-        : "";
-      const serieLabel = p.serie ? (p.serie + (p.delnr ? " · del " + p.delnr : "")) : "";
-      const meta = [p.dato ? fmtDato(p.dato) : "", serieLabel || p.tema || ""].filter(Boolean).join(" · ");
-      return `
-        <article class="post-card" ${p.bilde ? "" : 'style="grid-template-columns:1fr"'}>
-          ${media}
-          <div>
-            ${meta ? `<p class="post-card__date">${esc(meta)}</p>` : ""}
-            <h3><a href="${url}">${esc(p.tittel)}</a></h3>
-            ${p.ingress ? `<p>${esc(p.ingress)}</p>` : ""}
-            <a class="post-card__more" href="${url}">Les mer &rarr;</a>
-          </div>
-        </article>`;
-    }).join("");
+  function setLd(id, data) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = JSON.stringify(data);
   }
 
-  // Mobilmeny (delegert klikk, siden lenker legges til dynamisk)
+  function renderHubIfReady() {
+    if (!_innhold) return;
+    const D = _innhold;
+    const grid = $("#hubGrid");
+    if (!grid) return;
+    const serier = Array.isArray(D.serier) ? D.serier.filter((s) => s && s.tittel) : [];
+    const forste = serier[0];
+    const siste = (_innlegg || []).slice(0, 3);
+    const temaer = Array.isArray(D.temaer) ? D.temaer.filter((t) => t && t.tittel) : [];
+
+    const hubBlocks = [];
+
+    if (forste) {
+      hubBlocks.push({
+        eyebrow: "Første serie",
+        tittel: forste.tittel,
+        tekst: forste.beskrivelse || "En serie om hvilken retning Modum bør ta de neste 10, 20 og 30 årene.",
+        knapp: "Start serien",
+        url: "serie.html?navn=" + encodeURIComponent(forste.tittel),
+      });
+    }
+
+    hubBlocks.push({
+      eyebrow: "Siste innlegg",
+      tittel: "Siste publiseringer",
+      tekst: siste.length
+        ? "Det nyeste først: " + siste.map((p) => p.tittel).slice(0, 2).join(", ") + (siste.length > 2 ? " og mer." : ".")
+        : "De nyeste publiseringene, uansett serie eller tema.",
+      knapp: "Se alle innlegg",
+      url: "arkiv.html",
+    });
+
+    if (temaer.length) {
+      hubBlocks.push({
+        eyebrow: "Temaoversikt",
+        tittel: "Finn etter sak",
+        tekst: "Bla i innlegg sortert etter tema: " + temaer.slice(0, 4).map((t) => t.tittel).join(", ") + (temaer.length > 4 ? " og flere." : "."),
+        knapp: "Utforsk temaene",
+        url: "temaer.html",
+      });
+    }
+
+    grid.innerHTML = hubBlocks.map((b) => `
+      <article class="hub-card">
+        <p class="eyebrow">${esc(b.eyebrow)}</p>
+        <h2>${esc(b.tittel)}</h2>
+        <p>${esc(b.tekst)}</p>
+        <a href="${b.url}" class="btn">${esc(b.knapp)}</a>
+      </article>
+    `).join("");
+
+    // JSON-LD: liste over siste innlegg (hjelper indeksering)
+    if (siste.length) {
+      let ldList = document.getElementById("ldLatest");
+      if (!ldList) { ldList = document.createElement("script"); ldList.type = "application/ld+json"; ldList.id = "ldLatest"; document.head.appendChild(ldList); }
+      ldList.textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: "Siste innlegg",
+        itemListElement: siste.map((p, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          url: "https://modumvil.no/innlegg.html?slug=" + encodeURIComponent(p.slug),
+          name: p.tittel,
+        })),
+      });
+    }
+  }
+
+  // Mobilmeny
   const toggle = $("#navToggle"), navLinks = $("#navLinks");
   if (toggle && navLinks) {
     const setOpen = (o) => { navLinks.classList.toggle("open", o); toggle.setAttribute("aria-expanded", String(o)); };

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://modumvil.no/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://modumvil.no/om.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://modumvil.no/arkiv.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://modumvil.no/temaer.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://modumvil.no/bidra.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://modumvil.no/serie.html?navn=Modum%20framover</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://modumvil.no/tema.html?navn=Vekst%20og%20tilflytting</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://modumvil.no/tema.html?navn=N%C3%A6ringsliv%20og%20arbeidsplasser</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://modumvil.no/tema.html?navn=Skole%20og%20oppvekst</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://modumvil.no/tema.html?navn=Helse%20og%20eldreomsorg</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://modumvil.no/tema.html?navn=Kommune%C3%B8konomi</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://modumvil.no/tema.html?navn=Bygg%2C%20struktur%20og%20organisering</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://modumvil.no/tema.html?navn=Tettstedene%20v%C3%A5re</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://modumvil.no/tema.html?navn=Kultur%2C%20idrett%20og%20frivillighet</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://modumvil.no/innlegg.html?slug=modum-staar-ved-et-veiskille</loc><lastmod>2026-06-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+</urlset>

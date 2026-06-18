@@ -63,11 +63,12 @@
     .then((D) => {
       const info = (D && D.info) || {};
       if (info.navn) $$("[data-navn]").forEach((el) => (el.textContent = info.navn));
+      if (info.forfatter) window.SITE_AUTHOR = info.forfatter;
       renderMeny(D && D.meny, D && D.temaer, D && D.serier);
       const kbtn = $("#kontaktBtn");
       if (kbtn && info.epost) { kbtn.href = "mailto:" + info.epost; kbtn.textContent = "Send meg en e-post"; kbtn.hidden = false; }
     })
-    .catch(() => renderMeny(null, null));
+    .catch(() => renderMeny(null, null, null));
 
   if (!slug || !/^[a-z0-9-]+$/.test(slug)) { showError("Fant ikke innlegget."); return; }
 
@@ -81,11 +82,45 @@
   function render(p) {
     p = p || {};
     const tittel = p.tittel || "Innlegg";
-    document.title = tittel;
+    document.title = tittel + " - ModumVil.no";
+    const url = "https://modumvil.no/innlegg.html?slug=" + encodeURIComponent(slug);
     setMeta("metaDesc", "content", p.ingress || tittel);
+    setMeta("canonical", "href", url);
     setMeta("ogTitle", "content", tittel);
     setMeta("ogDesc", "content", p.ingress || "");
-    if (p.bilde) setMeta("ogImage", "content", p.bilde);
+    setMeta("ogUrl", "content", url);
+    if (p.bilde && /^https?:/i.test(p.bilde)) setMeta("ogImage", "content", p.bilde);
+
+    // JSON-LD: BlogPosting (forteller crawlere/AI hva siden er, ikke bare HTML)
+    const article = {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: tittel,
+      mainEntityOfPage: { "@type": "WebPage", "@id": url },
+      url,
+      inLanguage: "nb-NO",
+    };
+    if (p.dato) article.datePublished = p.dato;
+    if (p.ingress) article.description = p.ingress;
+    if (p.bilde) article.image = p.bilde;
+    if (p.tema) article.about = p.tema;
+    if (p.serie) article.isPartOf = { "@type": "CreativeWorkSeries", name: p.serie };
+    if (window.SITE_AUTHOR) article.author = { "@type": "Person", name: window.SITE_AUTHOR };
+    article.publisher = { "@type": "Organization", name: "ModumVil.no" };
+    const ldA = document.getElementById("ldArticle"); if (ldA) ldA.textContent = JSON.stringify(article);
+
+    // BreadcrumbList
+    const crumbs = [
+      { name: "Forsiden", item: "https://modumvil.no/" },
+      { name: "Alle innlegg", item: "https://modumvil.no/arkiv.html" },
+      { name: tittel, item: url },
+    ];
+    const ldB = document.getElementById("ldBreadcrumb");
+    if (ldB) ldB.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: crumbs.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: c.item })),
+    });
 
     $("#postTitle").textContent = tittel;
     const dateEl = $("#postDate"); if (p.dato) dateEl.textContent = fmtDato(p.dato);
@@ -100,6 +135,60 @@
     const media = $("#postMedia");
     if (p.bilde) { media.innerHTML = `<img src="${esc(p.bilde)}" alt="${esc(tittel)}">`; media.hidden = false; }
     $("#postBody").innerHTML = p.brodtekst || "";
+
+    // Kommentarer (moderert via portalen)
+    renderKommentarer(p.kommentarer || []);
+    const slugIn = $("#kommentarSlug"); if (slugIn) slugIn.value = slug;
+    const titIn = $("#kommentarTittel"); if (titIn) titIn.value = tittel;
+    wireKommentarForm();
+  }
+
+  function fmtKommentarDato(d) {
+    if (!d) return "";
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(d).trim());
+    if (!m) return String(d);
+    const mnd = ["januar","februar","mars","april","mai","juni","juli","august","september","oktober","november","desember"];
+    return `${Number(m[3])}. ${mnd[Number(m[2]) - 1]} ${m[1]}`;
+  }
+
+  function renderKommentarer(list) {
+    const liste = $("#kommentarListe");
+    const tom = $("#kommentarTom");
+    if (!liste) return;
+    const items = Array.isArray(list) ? list.filter((k) => k && (k.navn || k.tekst)) : [];
+    if (!items.length) { liste.innerHTML = ""; if (tom) tom.hidden = false; return; }
+    if (tom) tom.hidden = true;
+    liste.innerHTML = items.map((k) => `
+      <li class="kommentar">
+        <p class="kommentar__meta"><strong>${esc(k.navn || "Anonym")}</strong>${k.dato ? ` <span>· ${esc(fmtKommentarDato(k.dato))}</span>` : ""}</p>
+        <p class="kommentar__tekst">${esc(k.tekst || "").replace(/\n/g, "<br>")}</p>
+      </li>
+    `).join("");
+  }
+
+  let _kommentarWired = false;
+  function wireKommentarForm() {
+    if (_kommentarWired) return;
+    const form = $("#kommentarForm");
+    if (!form) return;
+    _kommentarWired = true;
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const feil = $("#kommentarFeil"); if (feil) feil.hidden = true;
+      const btn = form.querySelector("button[type=submit]");
+      if (btn) { btn.disabled = true; btn.textContent = "Sender …"; }
+      const body = new URLSearchParams(new FormData(form)).toString();
+      fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body })
+        .then((r) => {
+          if (!r.ok) throw new Error("status " + r.status);
+          form.hidden = true;
+          const takk = $("#kommentarTakk"); if (takk) takk.hidden = false;
+        })
+        .catch(() => {
+          if (btn) { btn.disabled = false; btn.textContent = "Send inn kommentar"; }
+          if (feil) feil.hidden = false;
+        });
+    });
   }
 
   function showError(msg) {

@@ -1,24 +1,26 @@
-/* Om siden: leser omSiden (rik tekst) fra content/innhold.json. */
-(function () {
-  const $ = (s) => document.querySelector(s);
-  const $$ = (s, root) => Array.from((root || document).querySelectorAll(s));
+/* Felles toppmeny + diverse hjelpere for sider som ikke er forsiden.
+   Eksponert som window.MV (ModumVil). */
+(function (root) {
+  const $ = (s, c) => (c || document).querySelector(s);
+  const $$ = (s, c) => Array.from((c || document).querySelectorAll(s));
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[m]));
   const norm = (s) => String(s == null ? "" : s).trim().toLowerCase();
+  const menyHref = (lenke) => ((lenke || "#").charAt(0) === "#" ? "index.html" + lenke : (lenke || "#"));
 
   const DEFAULT_MENY = [
     { tittel: "Start her", lenke: "om.html" },
-    { tittel: "Serier", lenke: "#serier" },
-    { tittel: "Temaoversikt", lenke: "#temaer" },
-    { tittel: "Innlegg", lenke: "#innlegg" },
+    { tittel: "Modum framover", lenke: "serie.html?navn=Modum framover" },
+    { tittel: "Temaoversikt", lenke: "temaer.html" },
+    { tittel: "Alle innlegg", lenke: "arkiv.html" },
   ];
 
-  const menyHref = (lenke) => ((lenke || "#").charAt(0) === "#" ? "index.html" + lenke : (lenke || "#"));
   function ddConfig(lenke, temaer, serier) {
     const ln = norm(lenke);
-    if (ln === "#temaer") return { list: temaer, item: "tema.html?navn=", all: "#temaer", allTekst: "Se hele temaoversikten" };
+    if (ln === "#temaer") return { list: temaer, item: "tema.html?navn=", all: "temaer.html", allTekst: "Se hele temaoversikten" };
     if (ln === "#serier") return { list: serier, item: "serie.html?navn=", all: "#serier", allTekst: "Se alle serier" };
     return null;
   }
+
   function renderMeny(meny, temaer, serier) {
     const nav = $("#navLinks"), cta = $("#navCta");
     if (!nav || !cta) return;
@@ -41,54 +43,60 @@
       }
     });
   }
+
   document.addEventListener("click", () => {
     $$(".nav__dd-panel.open").forEach((p) => { p.classList.remove("open"); const b = p.parentElement && p.parentElement.querySelector(".nav__dd-toggle"); if (b) b.setAttribute("aria-expanded", "false"); });
   });
 
-  fetch("content/innhold.json", { cache: "no-store" })
-    .then((r) => (r.ok ? r.json() : {}))
-    .then((D) => {
-      const info = (D && D.info) || {};
-      if (info.navn) $$("[data-navn]").forEach((el) => (el.textContent = info.navn));
-      renderMeny(D && D.meny, D && D.temaer, D && D.serier);
-      const body = $("[data-om-siden]");
-      if (body) body.innerHTML = (D && D.omSiden) || "<p>Innholdet på denne siden redigeres i portalen.</p>";
-
-      // FAQ JSON-LD: hent ut alle H3 + følgende paragraf som Q&A (AEO).
-      try {
-        const faqs = [];
-        $$("h3", body).forEach((h) => {
-          const q = h.textContent.trim();
-          let p = h.nextElementSibling;
-          while (p && p.tagName !== "P" && p.tagName !== "H3") p = p.nextElementSibling;
-          if (q && p && p.tagName === "P") faqs.push({ q, a: p.textContent.trim() });
-        });
-        if (faqs.length) {
-          const ld = document.getElementById("ldFaq");
-          if (ld) ld.textContent = JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
-          });
-        }
-      } catch (e) { /* ikke fatalt */ }
-
-      const ldB = document.getElementById("ldBreadcrumb");
-      if (ldB) ldB.textContent = JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Forsiden", item: "https://modumvil.no/" },
-          { "@type": "ListItem", position: 2, name: "Om siden", item: "https://modumvil.no/om.html" },
-        ],
-      });
-    })
-    .catch(() => { renderMeny(null, null, null); });
-
-  const toggle = $("#navToggle"), navLinks = $("#navLinks");
-  if (toggle && navLinks) {
+  // Mobil-toggle
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggle = $("#navToggle"), navLinks = $("#navLinks");
+    if (!toggle || !navLinks) return;
     const setOpen = (o) => { navLinks.classList.toggle("open", o); toggle.setAttribute("aria-expanded", String(o)); };
     toggle.addEventListener("click", () => setOpen(!navLinks.classList.contains("open")));
     navLinks.addEventListener("click", (e) => { if (e.target.closest("a")) setOpen(false); });
+  });
+
+  function fmtDato(d) {
+    if (!d) return "";
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(d).trim());
+    if (!m) return String(d);
+    const mnd = ["januar", "februar", "mars", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "desember"];
+    return `${Number(m[3])}. ${mnd[Number(m[2]) - 1]} ${m[1]}`;
   }
-})();
+
+  function renderPostCards(wrap, list, opts) {
+    opts = opts || {};
+    if (!wrap) return;
+    if (!list.length) { wrap.innerHTML = ""; if (opts.empty) opts.empty.hidden = false; return; }
+    if (opts.empty) opts.empty.hidden = true;
+    wrap.innerHTML = list.map((p) => {
+      const url = "innlegg.html?slug=" + encodeURIComponent(p.slug);
+      const media = p.bilde
+        ? `<a class="post-card__media" href="${url}"><img src="${esc(p.bilde)}" alt="${esc(p.tittel || "")}" loading="lazy"></a>`
+        : "";
+      const serieLabel = p.serie ? (p.serie + (p.delnr ? " · del " + p.delnr : "")) : "";
+      const meta = [p.dato ? fmtDato(p.dato) : "", serieLabel || p.tema || ""].filter(Boolean).join(" · ");
+      return `
+        <article class="post-card" ${p.bilde ? "" : 'style="grid-template-columns:1fr"'}>
+          ${media}
+          <div>
+            ${meta ? `<p class="post-card__date">${esc(meta)}</p>` : ""}
+            <h3><a href="${url}">${esc(p.tittel)}</a></h3>
+            ${p.ingress ? `<p>${esc(p.ingress)}</p>` : ""}
+            <a class="post-card__more" href="${url}">Les mer &rarr;</a>
+          </div>
+        </article>`;
+    }).join("");
+  }
+
+  // Setter JSON-LD via id="ld..."
+  function setJsonLd(id, data) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = JSON.stringify(data);
+  }
+
+  // Eksporter
+  root.MV = { $, $$, esc, norm, renderMeny, fmtDato, renderPostCards, setJsonLd, menyHref };
+})(window);
