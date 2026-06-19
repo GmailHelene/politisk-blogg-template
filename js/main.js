@@ -85,7 +85,9 @@
     D = D || {};
     const info = D.info || {};
     $$("[data-navn]").forEach((el) => { if (info.navn) el.textContent = info.navn; });
-    if (info.navn) document.title = info.navn;
+    // Tab-tittel/delingstittel: bruk delingsTittel hvis satt, ellers info.navn
+    const docTitle = D.delingsTittel || info.navn || "";
+    if (docTitle) document.title = docTitle;
     const setText = (sel, t) => { const el = $(sel); if (el && t != null && t !== "") el.textContent = t; };
     setText("[data-tittel]", info.tittel);
     setText("[data-ingress]", info.ingress);
@@ -113,8 +115,12 @@
     if (hero) {
       if (info.heroBilde) {
         hero.style.backgroundImage = `url("${String(info.heroBilde).replace(/"/g, "%22")}")`;
+        // Posisjon: portal-verdi eller default "center top" (sa bunnen vises - bra for fotograf-kreditt)
+        const pos = (info.heroBildePosisjon || "").trim().toLowerCase();
+        const validPos = ["top", "center", "bottom"].includes(pos) ? pos : "top";
+        hero.style.backgroundPosition = "center " + validPos;
         hero.classList.add("hero--bilde");
-      } else { hero.style.backgroundImage = ""; hero.classList.remove("hero--bilde"); }
+      } else { hero.style.backgroundImage = ""; hero.style.backgroundPosition = ""; hero.classList.remove("hero--bilde"); }
     }
 
     const omSec = $("#om");
