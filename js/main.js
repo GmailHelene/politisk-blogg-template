@@ -91,11 +91,18 @@
     setText("[data-ingress]", info.ingress);
     // Meta + OG
     const setAttr = (id, attr, val) => { const el = document.getElementById(id); if (el && val) el.setAttribute(attr, val); };
-    const desc = info.ingress || info.tittel || "";
+    const desc = D.delingsBeskrivelse || info.ingress || info.tittel || "";
+    const ogTitle = D.delingsTittel || info.navn || info.tittel || "";
     const metaDesc = $('meta[name="description"]'); if (metaDesc && desc) metaDesc.setAttribute("content", desc);
-    setAttr("ogTitle", "content", info.navn || info.tittel);
+    if (ogTitle) setAttr("ogTitle", "content", ogTitle);
     setAttr("ogDesc", "content", desc);
-    if (info.heroBilde && /^https?:/i.test(info.heroBilde)) setAttr("ogImage", "content", info.heroBilde);
+    const ogBilde = D.delingsBilde || info.heroBilde;
+    if (ogBilde) setAttr("ogImage", "content", /^https?:/i.test(ogBilde) ? ogBilde : "https://modumvil.no/" + ogBilde.replace(/^\//, ""));
+    // Favicon kan overstyres
+    if (info.favicon) {
+      const link = document.querySelector('link[rel="icon"]');
+      if (link) link.setAttribute("href", info.favicon);
+    }
 
     const cta = $("[data-cta]"); if (cta && info.ctaTekst) cta.textContent = info.ctaTekst;
     _defaultForfatter = info.forfatter || null;
@@ -155,40 +162,43 @@
 
     const hubBlocks = [];
 
-    if (forste) {
-      hubBlocks.push({
-        eyebrow: "Første serie",
-        tittel: forste.tittel,
-        tekst: forste.beskrivelse || "En serie om hvilken retning Modum bør ta de neste 10, 20 og 30 årene.",
-        knapp: "Start serien",
-        url: "serie.html?navn=" + encodeURIComponent(forste.tittel),
-      });
-    }
-
-    // Siste innlegg: vis det nyeste som et ekte innleggskort
-    if (siste[0]) {
-      const p = siste[0];
+    // De 3 nyeste innleggene som ekte innleggskort
+    siste.forEach((p) => {
       const url = "innlegg.html?slug=" + encodeURIComponent(p.slug);
       const serieLabel = p.serie ? (p.serie + (p.delnr ? " · del " + p.delnr : "")) : "";
       const meta = [p.dato ? fmtDato(p.dato) : "", serieLabel || p.tema || ""].filter(Boolean).join(" · ");
       hubBlocks.push({
         type: "post",
-        eyebrow: "Siste innlegg",
+        eyebrow: "Innlegg",
         meta,
         tittel: p.tittel,
         tekst: p.ingress || "",
         knapp: "Les innlegget",
         url,
-        secondaryKnapp: "Se alle innlegg",
-        secondaryUrl: "arkiv.html",
       });
-    } else {
+    });
+
+    // Tomt fallback hvis ingen innlegg ennå
+    if (!siste.length) {
       hubBlocks.push({
         eyebrow: "Siste innlegg",
         tittel: "Siste publiseringer",
         tekst: "De nyeste publiseringene, uansett serie eller tema.",
         knapp: "Se alle innlegg",
         url: "arkiv.html",
+      });
+    }
+
+    // Serier
+    if (serier.length) {
+      hubBlocks.push({
+        eyebrow: "Serier",
+        tittel: "Les hele serier",
+        tekst: serier.length === 1
+          ? `«${serier[0].tittel}» er den første. Flere kommer.`
+          : "Tematiske artikkelserier om framtidens Modum.",
+        knapp: "Se alle serier",
+        url: "serier.html",
       });
     }
 
@@ -202,12 +212,11 @@
       });
     }
 
-    // Send innspill - fjerde hub-blokk (erstatter den mørke kontakt-seksjonen)
     hubBlocks.push({
       eyebrow: "Bidra",
       tittel: "Send innspill",
-      tekst: "Har du tanker om hvordan Modum bør utvikles? Send innspill, forslag eller gjesteinnlegg.",
-      knapp: "Send innspill",
+      tekst: "Har du tanker om hvordan Modum bør utvikles? Send innspill, forslag eller skriv et gjesteinnlegg.",
+      knapp: "Skriv et innlegg",
       url: "bidra.html",
     });
 

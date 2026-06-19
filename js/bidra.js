@@ -53,14 +53,33 @@
       renderMeny(D && D.meny, D && D.temaer, D && D.serier);
       const intro = $("[data-bidra-tekst]");
       if (intro && D && D.bidraTekst) intro.innerHTML = D.bidraTekst;
-      // Fyll tema-/serie-dropdowns fra eksisterende temaer/serier
-      const fillDatalist = (id, list) => {
-        const dl = document.getElementById(id);
-        if (!dl || !Array.isArray(list)) return;
-        dl.innerHTML = list.filter((it) => it && it.tittel).map((it) => `<option value="${esc(it.tittel)}"></option>`).join("");
+      // Fyll select-feltene for tema og serie
+      const fillSelect = (selectId, list) => {
+        const sel = document.getElementById(selectId);
+        if (!sel || !Array.isArray(list)) return;
+        const nyttOpt = sel.querySelector('option[value="__nytt__"]');
+        list.filter((it) => it && it.tittel).forEach((it) => {
+          const o = document.createElement("option");
+          o.value = it.tittel;
+          o.textContent = it.tittel;
+          sel.insertBefore(o, nyttOpt);
+        });
       };
-      fillDatalist("bidra-temaer", D && D.temaer);
-      fillDatalist("bidra-serier", D && D.serier);
+      fillSelect("bidraTemaSelect", D && D.temaer);
+      fillSelect("bidraSerieSelect", D && D.serier);
+
+      // Toggle "skriv inn"-felt nar bruker velger Annet
+      const wireSelect = (selectId, inputId) => {
+        const sel = document.getElementById(selectId), inp = document.getElementById(inputId);
+        if (!sel || !inp) return;
+        sel.addEventListener("change", () => {
+          const annet = sel.value === "__nytt__";
+          inp.hidden = !annet;
+          if (annet) { inp.required = false; inp.focus(); } else { inp.value = ""; }
+        });
+      };
+      wireSelect("bidraTemaSelect", "bidraTemaAnnet");
+      wireSelect("bidraSerieSelect", "bidraSerieAnnet");
     })
     .catch(() => { renderMeny(null, null, null); });
 
@@ -101,10 +120,29 @@
       if (btn) { btn.disabled = true; btn.textContent = "Sender …"; }
       // Sorg for at HTML-en fra rt-editoren er synket til hidden textarea
       if (rtEditor && rtTextarea) rtTextarea.value = rtEditor.innerHTML;
+      // Hvis select er "__nytt__", erstatt med innskrevet verdi
+      const temaSel = document.getElementById("bidraTemaSelect");
+      const temaAnnet = document.getElementById("bidraTemaAnnet");
+      if (temaSel && temaSel.value === "__nytt__") temaSel.value = (temaAnnet && temaAnnet.value.trim()) || "";
+      const serieSel = document.getElementById("bidraSerieSelect");
+      const serieAnnet = document.getElementById("bidraSerieAnnet");
+      if (serieSel && serieSel.value === "__nytt__") serieSel.value = (serieAnnet && serieAnnet.value.trim()) || "";
+
       const fd = new FormData(form);
       // Hopp over tomt fil-felt (Netlify klager ellers)
       const bilde = fd.get("bilde");
-      if (bilde && bilde instanceof File && bilde.size === 0) fd.delete("bilde");
+      const bildeRett = document.getElementById("bidraBildeRett");
+      if (bilde && bilde instanceof File && bilde.size === 0) {
+        fd.delete("bilde");
+      } else if (bilde && bilde instanceof File && bilde.size > 0) {
+        // Bilde lagt ved: krev rettighets-bekreftelse
+        if (bildeRett && !bildeRett.checked) {
+          if (btn) { btn.disabled = false; btn.textContent = "Send inn innlegg"; }
+          if (feil) { feil.textContent = "Krysse av for at du har rettigheter til bildet før du sender."; feil.hidden = false; }
+          bildeRett.focus();
+          return;
+        }
+      }
       fetch("/", { method: "POST", body: fd })
         .then((r) => {
           if (!r.ok) throw new Error("status " + r.status);
@@ -114,6 +152,7 @@
         })
         .catch(() => {
           if (btn) { btn.disabled = false; btn.textContent = "Send inn innlegg"; }
+
           if (feil) feil.hidden = false;
         });
     });

@@ -54,15 +54,19 @@
         </label>
         <label class="skjema__felt">
           <span>Tema (valgfritt)</span>
-          <input type="text" name="tema" list="bidra-temaer" autocomplete="off" />
-          <datalist id="bidra-temaer"></datalist>
-          <small>Velg fra lista, eller skriv et nytt tema.</small>
+          <select name="tema" id="bidraTemaSelect" class="skjema__select">
+            <option value="">— velg tema —</option>
+            <option value="__nytt__">+ Annet (skriv inn)</option>
+          </select>
+          <input type="text" name="temaAnnet" id="bidraTemaAnnet" placeholder="Skriv inn nytt tema" hidden />
         </label>
         <label class="skjema__felt">
           <span>Serie (valgfritt)</span>
-          <input type="text" name="serie" list="bidra-serier" autocomplete="off" />
-          <datalist id="bidra-serier"></datalist>
-          <small>La stå tom hvis innlegget ikke er del av en serie. Du kan skrive et nytt serienavn.</small>
+          <select name="serie" id="bidraSerieSelect" class="skjema__select">
+            <option value="">— velg serie eller la stå tomt —</option>
+            <option value="__nytt__">+ Annet (skriv inn)</option>
+          </select>
+          <input type="text" name="serieAnnet" id="bidraSerieAnnet" placeholder="Skriv inn nytt serienavn" hidden />
         </label>
         <div class="skjema__felt">
           <span>Innlegget ditt</span>
@@ -84,11 +88,26 @@
           </div>
           <textarea name="innlegg" id="bidraInnleggTextarea" required hidden></textarea>
         </div>
-        <label class="skjema__felt">
-          <span>Bilde til innlegget (valgfritt)</span>
-          <input type="file" name="bilde" accept="image/*" />
-          <small>Et bilde som hører til innlegget. Maks ca. 5 MB.</small>
-        </label>
+        <fieldset class="skjema__bilde">
+          <legend>Bilde til innlegget (valgfritt)</legend>
+          <label class="skjema__felt">
+            <span>Bilde</span>
+            <input type="file" name="bilde" accept="image/*" id="bidraBildeFil" />
+            <small>Et bilde som hører til innlegget. Maks ca. 5 MB.</small>
+          </label>
+          <label class="skjema__felt">
+            <span>Hvem har tatt bildet?</span>
+            <input type="text" name="bildeFotograf" placeholder="Navn / kilde" />
+          </label>
+          <label class="skjema__felt">
+            <span>Bildetekst</span>
+            <input type="text" name="bildetekst" placeholder="Kort tekst som beskriver bildet" />
+          </label>
+          <label class="skjema__samtykke">
+            <input type="checkbox" name="bildeRettigheter" id="bidraBildeRett" />
+            <span>Jeg bekrefter at jeg har rettigheter til å bruke dette bildet, og at personer på bildet har gitt samtykke til publisering.</span>
+          </label>
+        </fieldset>
         <label class="skjema__samtykke">
           <input type="checkbox" name="samtykke" required />
           <span>Jeg er innforstått med at innlegget kan bli publisert på siden med navnet mitt.</span>

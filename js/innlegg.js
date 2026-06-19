@@ -144,7 +144,11 @@
     }
     const lead = $("#postLead"); if (p.ingress) { lead.textContent = p.ingress; lead.hidden = false; }
     const media = $("#postMedia");
-    if (p.bilde) { media.innerHTML = `<img src="${esc(p.bilde)}" alt="${esc(tittel)}">`; media.hidden = false; }
+    if (p.bilde) {
+      const caption = [p.bildetekst, p.bildeFotograf ? "Foto: " + p.bildeFotograf : ""].filter(Boolean).join(" - ");
+      media.innerHTML = `<img src="${esc(p.bilde)}" alt="${esc(tittel)}">${caption ? `<figcaption class="article__bildetekst">${esc(caption)}</figcaption>` : ""}`;
+      media.hidden = false;
+    }
     $("#postBody").innerHTML = p.brodtekst || "";
 
     // Kommentarer (moderert via portalen)
