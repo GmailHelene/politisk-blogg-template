@@ -35,7 +35,7 @@
         <p>Har du tanker om hvordan Modum bør utvikles? Her kan du sende inn et gjesteinnlegg. Jeg leser gjennom alt som kommer inn, og publiserer de innleggene som passer. Du beholder navnet ditt på det du skriver.</p>
       </div>
 
-      <form name="gjesteinnlegg" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="bidraForm" class="skjema">
+      <form name="gjesteinnlegg" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" id="bidraForm" class="skjema">
         <input type="hidden" name="form-name" value="gjesteinnlegg" />
         <p class="skjema__hp"><label>Ikke fyll ut dette feltet: <input name="bot-field" /></label></p>
 
@@ -64,9 +64,30 @@
           <datalist id="bidra-serier"></datalist>
           <small>La stå tom hvis innlegget ikke er del av en serie. Du kan skrive et nytt serienavn.</small>
         </label>
-        <label class="skjema__felt">
+        <div class="skjema__felt">
           <span>Innlegget ditt</span>
-          <textarea name="innlegg" rows="12" required></textarea>
+          <div class="rt" data-rt-target="innlegg">
+            <div class="rt__toolbar" role="toolbar" aria-label="Formatering">
+              <button type="button" data-cmd="formatBlock" data-arg="h2" title="Stor overskrift" class="rt__btn rt__btn--h">H2</button>
+              <button type="button" data-cmd="formatBlock" data-arg="h3" title="Mellomstor overskrift" class="rt__btn rt__btn--h">H3</button>
+              <button type="button" data-cmd="formatBlock" data-arg="p" title="Normal tekst" class="rt__btn">Tekst</button>
+              <span class="rt__sep" aria-hidden="true"></span>
+              <button type="button" data-cmd="bold" title="Fet" class="rt__btn rt__btn--b"><b>F</b></button>
+              <button type="button" data-cmd="italic" title="Kursiv" class="rt__btn rt__btn--i"><i>K</i></button>
+              <span class="rt__sep" aria-hidden="true"></span>
+              <button type="button" data-cmd="insertUnorderedList" title="Punktliste" class="rt__btn">• Liste</button>
+              <button type="button" data-cmd="insertOrderedList" title="Nummerert liste" class="rt__btn">1. Liste</button>
+              <span class="rt__sep" aria-hidden="true"></span>
+              <button type="button" data-cmd="createLink" title="Sett inn lenke" class="rt__btn">🔗 Lenke</button>
+            </div>
+            <div class="rt__editor" contenteditable="true" data-placeholder="Skriv innlegget ditt her ..."></div>
+          </div>
+          <textarea name="innlegg" id="bidraInnleggTextarea" required hidden></textarea>
+        </div>
+        <label class="skjema__felt">
+          <span>Bilde til innlegget (valgfritt)</span>
+          <input type="file" name="bilde" accept="image/*" />
+          <small>Et bilde som hører til innlegget. Maks ca. 5 MB.</small>
         </label>
         <label class="skjema__samtykke">
           <input type="checkbox" name="samtykke" required />

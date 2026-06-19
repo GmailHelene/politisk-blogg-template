@@ -64,7 +64,34 @@
     })
     .catch(() => { renderMeny(null, null, null); });
 
-  // Innsending via Netlify Forms (AJAX, så brukeren blir på siden).
+  // Rik-tekst-editor (contentEditable -> skjult textarea) i innleggsfeltet
+  const rt = document.querySelector(".rt[data-rt-target='innlegg']");
+  const rtEditor = rt && rt.querySelector(".rt__editor");
+  const rtTextarea = document.getElementById("bidraInnleggTextarea");
+  if (rt && rtEditor && rtTextarea) {
+    const syncToTextarea = () => { rtTextarea.value = rtEditor.innerHTML; };
+    rtEditor.addEventListener("input", syncToTextarea);
+    rt.querySelectorAll(".rt__btn").forEach((btn) => {
+      btn.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        const cmd = btn.getAttribute("data-cmd");
+        let arg = btn.getAttribute("data-arg") || undefined;
+        if (cmd === "createLink") {
+          const url = prompt("Lenke (https://…)");
+          if (!url) return;
+          arg = url;
+        }
+        if (cmd === "formatBlock" && arg) arg = "<" + arg + ">";
+        rtEditor.focus();
+        document.execCommand(cmd, false, arg);
+        syncToTextarea();
+      });
+    });
+    // Vis plassholder via CSS når tom
+    syncToTextarea();
+  }
+
+  // Innsending via Netlify Forms (AJAX, FormData stotter bade rich-text og bilde-vedlegg).
   const form = $("#bidraForm");
   if (form) {
     form.addEventListener("submit", (e) => {
@@ -72,8 +99,13 @@
       const feil = $("#skjemaFeil"); if (feil) feil.hidden = true;
       const btn = form.querySelector("button[type=submit]");
       if (btn) { btn.disabled = true; btn.textContent = "Sender …"; }
-      const body = new URLSearchParams(new FormData(form)).toString();
-      fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body })
+      // Sorg for at HTML-en fra rt-editoren er synket til hidden textarea
+      if (rtEditor && rtTextarea) rtTextarea.value = rtEditor.innerHTML;
+      const fd = new FormData(form);
+      // Hopp over tomt fil-felt (Netlify klager ellers)
+      const bilde = fd.get("bilde");
+      if (bilde && bilde instanceof File && bilde.size === 0) fd.delete("bilde");
+      fetch("/", { method: "POST", body: fd })
         .then((r) => {
           if (!r.ok) throw new Error("status " + r.status);
           form.hidden = true;
