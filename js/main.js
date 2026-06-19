@@ -10,6 +10,7 @@
     { tittel: "Om siden", lenke: "om.html" },
     { tittel: "Serier", lenke: "#serier" },
     { tittel: "Temaoversikt", lenke: "#temaer" },
+    { tittel: "Skribenter", lenke: "skribenter.html" },
     { tittel: "Alle innlegg", lenke: "arkiv.html" },
   ];
 

@@ -53,6 +53,14 @@
       renderMeny(D && D.meny, D && D.temaer, D && D.serier);
       const intro = $("[data-bidra-tekst]");
       if (intro && D && D.bidraTekst) intro.innerHTML = D.bidraTekst;
+      // Fyll tema-/serie-dropdowns fra eksisterende temaer/serier
+      const fillDatalist = (id, list) => {
+        const dl = document.getElementById(id);
+        if (!dl || !Array.isArray(list)) return;
+        dl.innerHTML = list.filter((it) => it && it.tittel).map((it) => `<option value="${esc(it.tittel)}"></option>`).join("");
+      };
+      fillDatalist("bidra-temaer", D && D.temaer);
+      fillDatalist("bidra-serier", D && D.serier);
     })
     .catch(() => { renderMeny(null, null, null); });
 

@@ -24,6 +24,7 @@ const staticUrls = [
   { loc: "/arkiv.html", changefreq: "weekly", priority: "0.8" },
   { loc: "/temaer.html", changefreq: "monthly", priority: "0.6" },
   { loc: "/serier.html", changefreq: "monthly", priority: "0.6" },
+  { loc: "/skribenter.html", changefreq: "monthly", priority: "0.5" },
   { loc: "/bidra.html", changefreq: "monthly", priority: "0.5" },
 ];
 const serieUrls = (innhold.serier || []).filter((s) => s && s.tittel).map((s) => ({

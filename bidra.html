@@ -53,6 +53,18 @@
           <input type="text" name="tittel" required />
         </label>
         <label class="skjema__felt">
+          <span>Tema (valgfritt)</span>
+          <input type="text" name="tema" list="bidra-temaer" autocomplete="off" />
+          <datalist id="bidra-temaer"></datalist>
+          <small>Velg fra lista, eller skriv et nytt tema.</small>
+        </label>
+        <label class="skjema__felt">
+          <span>Serie (valgfritt)</span>
+          <input type="text" name="serie" list="bidra-serier" autocomplete="off" />
+          <datalist id="bidra-serier"></datalist>
+          <small>La stå tom hvis innlegget ikke er del av en serie. Du kan skrive et nytt serienavn.</small>
+        </label>
+        <label class="skjema__felt">
           <span>Innlegget ditt</span>
           <textarea name="innlegg" rows="12" required></textarea>
         </label>
