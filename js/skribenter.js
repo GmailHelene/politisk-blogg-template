@@ -22,10 +22,10 @@
         const lenke = s.lenke ? `<a class="skribent__lenke" href="${esc(s.lenke)}" target="_blank" rel="noopener">Mer om ${esc(s.navn)} &rarr;</a>` : "";
         return `
           <article class="skribent">
-            <h3>${esc(s.navn)}</h3>
-            ${rolle}
             ${img}
             <div class="skribent__body">
+              <h3>${esc(s.navn)}</h3>
+              ${rolle}
               ${tekst}
               ${lenke}
             </div>
