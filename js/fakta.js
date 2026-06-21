@@ -4,17 +4,47 @@
 
   function norm(s) { return String(s || "").trim(); }
 
-  // Beregn endring fra historikk hvis ikke eksplisitt satt
-  function autoEndring(historikk) {
-    if (!Array.isArray(historikk) || historikk.length < 2) return "";
-    const tall = (s) => {
-      const n = parseFloat(String(s || "").replace(/\s+/g, "").replace(",", "."));
-      return Number.isFinite(n) ? n : null;
-    };
-    const a = tall(historikk[0] && historikk[0].verdi);
-    const b = tall(historikk[1] && historikk[1].verdi);
-    if (a == null || b == null) return "";
-    const d = a - b;
+  const tall = (s) => {
+    const n = parseFloat(String(s == null ? "" : s).replace(/\s+/g, "").replace(",", "."));
+    return Number.isFinite(n) ? n : null;
+  };
+
+  // Gjor en dato-streng om til et sorterbart tall (stotter «3. kvartal 2025»,
+  // «juni 2026», «Q1 2026», «2023»). Brukes for a finne NYESTE maling uansett
+  // hvilken rekkefolge historikken er lagt inn i.
+  function datoVerdi(s) {
+    s = String(s || "").toLowerCase();
+    const aar = (s.match(/(\d{4})/) || [])[1];
+    if (!aar) return 0;
+    let frac = 0;
+    const kvm = s.match(/(\d)\s*\.?\s*kvartal/) || s.match(/q\s*(\d)/);
+    if (kvm) {
+      frac = (parseInt(kvm[1], 10) - 1) / 4 + 0.05;
+    } else {
+      const mnd = ["januar", "februar", "mars", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "desember"];
+      for (let i = 0; i < 12; i++) { if (s.indexOf(mnd[i]) !== -1) { frac = (i + 0.5) / 12; break; } }
+    }
+    return parseInt(aar, 10) + frac;
+  }
+
+  // Endring = hovedtall (nyeste verdi) minus den NYESTE oppforingen i historikken.
+  function autoEndring(f) {
+    const hist = Array.isArray(f.historikk)
+      ? f.historikk.filter((h) => h && String(h.verdi || "").trim() !== "")
+      : [];
+    if (!hist.length) return "";
+    const naa = tall(f.hovedtall);
+    if (naa == null) return "";
+    // Finn nyeste etter dato; faller tilbake til siste oppforing i lista.
+    let nyeste = hist[hist.length - 1];
+    const medDato = hist.filter((h) => datoVerdi(h.dato) > 0);
+    if (medDato.length) {
+      nyeste = medDato.reduce((a, b) => (datoVerdi(b.dato) >= datoVerdi(a.dato) ? b : a));
+    }
+    const forrige = tall(nyeste.verdi);
+    if (forrige == null) return "";
+    const d = naa - forrige;
+    if (d === 0) return "0";
     const sign = d > 0 ? "+" : "";
     return sign + d.toLocaleString("no-NO", { maximumFractionDigits: 1 });
   }
@@ -23,7 +53,7 @@
     const tittel = esc(f.tittel || "");
     const hovedtall = esc(f.hovedtall || "");
     const enhet = f.enhet ? `<span class="faktakort__enhet"> ${esc(f.enhet)}</span>` : "";
-    const endringRaw = f.endring && norm(f.endring) ? norm(f.endring) : autoEndring(f.historikk);
+    const endringRaw = f.endring && norm(f.endring) ? norm(f.endring) : autoEndring(f);
     let endringHtml = "";
     if (endringRaw) {
       const positive = /^\+/.test(endringRaw);
