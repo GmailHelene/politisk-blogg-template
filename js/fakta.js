@@ -74,9 +74,18 @@
   }
 
   function wireAccordion(root) {
-    $$(".faktakort__topp", root).forEach((btn) => {
+    const buttons = $$(".faktakort__topp", root);
+    buttons.forEach((btn) => {
       btn.addEventListener("click", () => {
         const expanded = btn.getAttribute("aria-expanded") === "true";
+        // Lukk alle andre forst (eksklusiv accordion)
+        buttons.forEach((other) => {
+          if (other === btn) return;
+          other.setAttribute("aria-expanded", "false");
+          const otherPanel = document.getElementById(other.getAttribute("aria-controls"));
+          if (otherPanel) otherPanel.hidden = true;
+        });
+        // Toggle dette kortet
         btn.setAttribute("aria-expanded", String(!expanded));
         const panel = document.getElementById(btn.getAttribute("aria-controls"));
         if (panel) panel.hidden = expanded;
