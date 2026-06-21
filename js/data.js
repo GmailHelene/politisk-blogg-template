@@ -11,6 +11,7 @@ window.SITE_DATA = {
     { tittel: "Om siden", lenke: "om.html" },
     { tittel: "Serier", lenke: "#serier" },
     { tittel: "Temaoversikt", lenke: "#temaer" },
+    { tittel: "Modum fakta", lenke: "fakta.html" },
     { tittel: "Skribenter", lenke: "skribenter.html" },
     { tittel: "Alle innlegg", lenke: "arkiv.html" }
   ],
