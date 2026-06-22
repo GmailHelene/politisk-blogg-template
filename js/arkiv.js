@@ -29,7 +29,7 @@
       const itemListElement = items.map((p, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: "https://modumvil.no/innlegg.html?slug=" + encodeURIComponent(p.slug),
+        url: "https://modumvil.no/" + encodeURIComponent(p.slug) + ".html",
         name: p.tittel,
       }));
       const ld = document.createElement("script");

@@ -91,7 +91,7 @@
     if (!list.length) { wrap.innerHTML = ""; empty.hidden = false; return; }
     empty.hidden = true;
     wrap.innerHTML = list.map((p) => {
-      const url = "innlegg.html?slug=" + encodeURIComponent(p.slug);
+      const url = encodeURIComponent(p.slug) + ".html";
       const del = p.delnr ? `Del ${esc(p.delnr)}` : "";
       const meta = [del, p.dato ? fmtDato(p.dato) : ""].filter(Boolean).join(" · ");
       return `

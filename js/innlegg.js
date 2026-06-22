@@ -55,7 +55,11 @@
     return `${Number(m[3])}. ${mnd[Number(m[2]) - 1]} ${m[1]}`;
   }
 
-  const slug = new URLSearchParams(location.search).get("slug");
+  // Slug: fra POST_SLUG (statisk per-innlegg-side) eller ?slug= (delt innlegg.html).
+  const slug = window.POST_SLUG || new URLSearchParams(location.search).get("slug");
+  // Kanonisk URL = gjeldende side (uten hash). På statisk side er det /<slug>.html.
+  const selfUrl = location.href.split("#")[0].split("?")[0] +
+    (window.POST_SLUG ? "" : (location.search || ""));
 
   // Toppmeny-merkenavn fra rammen (best effort)
   fetch("content/innhold.json", { cache: "no-store" })
@@ -83,7 +87,7 @@
     p = p || {};
     const tittel = p.tittel || "Innlegg";
     document.title = tittel + " - ModumVil.no";
-    const url = "https://modumvil.no/innlegg.html?slug=" + encodeURIComponent(slug);
+    const url = selfUrl;
     setMeta("metaDesc", "content", p.ingress || tittel);
     setMeta("canonical", "href", url);
     setMeta("ogTitle", "content", tittel);

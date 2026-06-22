@@ -171,7 +171,7 @@
 
     // De 3 nyeste innleggene som ekte innleggskort
     siste.forEach((p) => {
-      const url = "innlegg.html?slug=" + encodeURIComponent(p.slug);
+      const url = encodeURIComponent(p.slug) + ".html";
       const serieLabel = p.serie ? (p.serie + (p.delnr ? " · del " + p.delnr : "")) : "";
       const meta = [p.dato ? fmtDato(p.dato) : "", serieLabel || p.tema || ""].filter(Boolean).join(" · ");
       hubBlocks.push({
@@ -251,7 +251,7 @@
         itemListElement: siste.map((p, i) => ({
           "@type": "ListItem",
           position: i + 1,
-          url: "https://modumvil.no/innlegg.html?slug=" + encodeURIComponent(p.slug),
+          url: "https://modumvil.no/" + encodeURIComponent(p.slug) + ".html",
           name: p.tittel,
         })),
       });

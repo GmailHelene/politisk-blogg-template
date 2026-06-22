@@ -35,7 +35,7 @@ const temaUrls = (innhold.temaer || []).filter((t) => t && t.tittel).map((t) => 
   loc: "/tema.html?navn=" + encodeURIComponent(t.tittel), changefreq: "monthly", priority: "0.5",
 }));
 const innleggUrls = innlegg.map((p) => ({
-  loc: "/innlegg.html?slug=" + encodeURIComponent(p.slug),
+  loc: "/" + encodeURIComponent(p.slug) + ".html",
   lastmod: p.dato || today,
   changefreq: "monthly",
   priority: "0.8",
@@ -53,7 +53,7 @@ fs.writeFileSync(path.join(ROOT, "sitemap.xml"), sitemap);
 const sitenavn = (innhold.info && innhold.info.navn) || "Politisk blogg";
 const sitedesc = (innhold.info && (innhold.info.ingress || innhold.info.tittel)) || "Politisk blogg";
 const items = innlegg.slice(0, 30).map((p) => {
-  const url = baseUrl + "/innlegg.html?slug=" + encodeURIComponent(p.slug);
+  const url = baseUrl + "/" + encodeURIComponent(p.slug) + ".html";
   return `    <item>
       <title>${esc(p.tittel)}</title>
       <link>${url}</link>

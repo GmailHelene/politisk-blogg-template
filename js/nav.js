@@ -73,7 +73,7 @@
     if (!list.length) { wrap.innerHTML = ""; if (opts.empty) opts.empty.hidden = false; return; }
     if (opts.empty) opts.empty.hidden = true;
     wrap.innerHTML = list.map((p) => {
-      const url = "innlegg.html?slug=" + encodeURIComponent(p.slug);
+      const url = encodeURIComponent(p.slug) + ".html";
       const media = p.bilde
         ? `<a class="post-card__media" href="${url}"><img src="${esc(p.bilde)}" alt="${esc(p.tittel || "")}" loading="lazy"></a>`
         : "";
