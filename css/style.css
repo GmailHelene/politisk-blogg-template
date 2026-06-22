@@ -85,7 +85,7 @@ img { max-width: 100%; display: block; }
 .hero--bilde .btn--ghost:hover { background: #fff; color: var(--ink); border-color: #fff; }
 
 /* Tekstseksjoner */
-.section { max-width: var(--maxw); margin: 0 auto; padding: 4rem 1.5rem; }
+.section { max-width: var(--maxw); margin: 0 auto; padding: 2.6rem 1.5rem; }
 .section--wide { max-width: 1080px; }
 .section--alt { background: var(--bg-alt); max-width: none; }
 .section--alt .section__inner { max-width: var(--maxw); margin: 0 auto; }
@@ -116,12 +116,14 @@ img { max-width: 100%; display: block; }
 .nav__dd--cta .nav__dd-toggle:hover { color: var(--accent); }
 
 /* Forside-seksjoner (Siste innlegg / Bidra / Utforsk) */
-.seksjon-tittel { font-size: clamp(1.5rem, 3.2vw, 2rem); margin-bottom: 1.6rem; }
-.seksjon-ingress { color: var(--ink-soft); margin: -.8rem 0 1.8rem; max-width: 60ch; }
-.seksjon-mer { margin-top: 2rem; }
+.seksjon-tittel { font-size: clamp(1.5rem, 3.2vw, 2rem); margin-bottom: 1.1rem; }
+.seksjon-ingress { color: var(--ink-soft); margin: -.6rem 0 1.4rem; max-width: 60ch; }
+.seksjon-mer { margin-top: 1.3rem; }
 .lenke-pil { color: var(--accent-deep); font-weight: 600; font-size: .96rem; }
 .lenke-pil:hover { text-decoration: underline; }
-.post-liste { display: grid; gap: 2.2rem; }
+.seksjon-mer .lenke-pil { font-size: 1.1rem; }
+.post-liste { display: grid; gap: 1.5rem; }
+.post-liste .post-card { padding-bottom: 1.5rem; }
 
 /* Bidra-kort (3 lavterskel-valg) */
 .bidra-seksjon { background: var(--bg-alt); max-width: none; }
