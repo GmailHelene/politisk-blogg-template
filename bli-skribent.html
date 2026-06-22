@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bli skribent - ModumVil.no</title>
+  <meta name="description" content="Vil du skrive jevnlig om Modum? Meld interesse som fast skribent på ModumVil.no." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a href="#hovedinnhold" class="skip-link">Hopp til innhold</a>
+
+  <header class="nav" id="top">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand" data-navn>ModumVil.no</a>
+      <nav class="nav__links" id="navLinks" aria-label="Hovedmeny"></nav>
+      <button class="nav__toggle" id="navToggle" aria-label="Åpne meny" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="hovedinnhold">
+    <section class="article">
+      <a href="index.html" class="article__back">&larr; Til forsiden</a>
+      <div class="rule"></div>
+      <h1>Bli skribent</h1>
+      <div class="prose">
+        <p>Vil du skrive jevnlig om Modum? ModumVil.no er åpen for flere faste stemmer. Du trenger ikke være politiker eller fagperson, bare ha noe på hjertet og lyst til å bidra til debatten om hvordan kommunen vår skal utvikles.</p>
+        <p>Meld interesse her, så tar vi kontakt for en uforpliktende prat.</p>
+      </div>
+
+      <form name="skribent" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="skribentForm" class="skjema" data-ajax data-takk="#skribentTakk" data-feil="#skribentFeil">
+        <input type="hidden" name="form-name" value="skribent" />
+        <p class="skjema__hp"><label>Ikke fyll ut dette feltet: <input name="bot-field" /></label></p>
+
+        <label class="skjema__felt">
+          <span>Navn</span>
+          <input type="text" name="navn" required />
+        </label>
+        <label class="skjema__felt">
+          <span>E-post</span>
+          <input type="email" name="epost" required />
+          <small>Brukes bare for å ta kontakt med deg. Publiseres ikke.</small>
+        </label>
+        <label class="skjema__felt">
+          <span>Litt om deg, og hva du har lyst til å skrive om</span>
+          <textarea name="om" rows="6" required></textarea>
+          <small>Trenger ikke være langt. Et par setninger holder.</small>
+        </label>
+
+        <button type="submit" class="btn">Meld interesse</button>
+        <p id="skribentFeil" class="skjema__feil" hidden>Noe gikk galt. Prøv igjen, eller send en e-post i stedet.</p>
+      </form>
+
+      <div id="skribentTakk" class="skjema__takk" hidden>
+        <h2>Takk for interessen!</h2>
+        <p>Vi har mottatt meldingen din og tar kontakt så snart vi kan.</p>
+        <a href="index.html" class="btn">Til forsiden</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__brand" data-navn>ModumVil.no</p>
+    <p class="footer__disclaimer">Innlegg uttrykker forfatterens egne meninger.</p>
+    <p class="footer__credit">Nettside av <a href="https://helene.cloud" target="_blank" rel="noopener">helene.cloud</a></p>
+  </footer>
+
+  <script src="js/nav.js"></script>
+  <script src="js/skjema.js"></script>
+</body>
+</html>

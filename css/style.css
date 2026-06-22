@@ -111,6 +111,37 @@ img { max-width: 100%; display: block; }
   .hub-card { padding: 1.6rem 1.4rem; }
 }
 
+/* Bidra-dropdown i menyen - aksentuert sa "Bidra" skiller seg ut */
+.nav__dd--cta .nav__dd-toggle { color: var(--accent-deep); font-weight: 700; }
+.nav__dd--cta .nav__dd-toggle:hover { color: var(--accent); }
+
+/* Forside-seksjoner (Siste innlegg / Bidra / Utforsk) */
+.seksjon-tittel { font-size: clamp(1.5rem, 3.2vw, 2rem); margin-bottom: 1.6rem; }
+.seksjon-ingress { color: var(--ink-soft); margin: -.8rem 0 1.8rem; max-width: 60ch; }
+.seksjon-mer { margin-top: 2rem; }
+.lenke-pil { color: var(--accent-deep); font-weight: 600; font-size: .96rem; }
+.lenke-pil:hover { text-decoration: underline; }
+.post-liste { display: grid; gap: 2.2rem; }
+
+/* Bidra-kort (3 lavterskel-valg) */
+.bidra-seksjon { background: var(--bg-alt); max-width: none; }
+.bidra-seksjon > * { max-width: 1080px; margin-left: auto; margin-right: auto; }
+.bidra-kort { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+.bidra-kort__item { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 1.8rem 1.6rem; display: flex; flex-direction: column; gap: .55rem; }
+.bidra-kort__item h3 { font-size: 1.3rem; margin: 0; }
+.bidra-kort__item p { color: var(--ink-soft); margin: 0; font-size: .96rem; }
+.bidra-kort__item .btn { align-self: flex-start; margin-top: auto; }
+@media (max-width: 900px) { .bidra-kort { grid-template-columns: 1fr; } }
+
+/* Utforsk-kort (temaer + serier) */
+.utforsk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+.utforsk-kort { border: 1px solid var(--line); border-radius: 12px; padding: 1.8rem 1.6rem; display: flex; flex-direction: column; gap: .5rem; }
+.utforsk-kort h3 { font-size: 1.35rem; margin: 0; }
+.utforsk-kort p { color: var(--ink-soft); margin: 0; font-size: .96rem; }
+.utforsk-kort .eyebrow { font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-deep); font-weight: 600; margin: 0; }
+.utforsk-kort .lenke-pil { margin-top: .4rem; }
+@media (max-width: 760px) { .utforsk-grid { grid-template-columns: 1fr; } }
+
 /* Info-boks under hero */
 .om { padding-top: 3.5rem; padding-bottom: 1rem; }
 .om-box { background: var(--bg-alt); border: 1px solid var(--line); border-radius: 12px; padding: 2rem 2.2rem; }
@@ -263,6 +294,10 @@ img { max-width: 100%; display: block; }
 .skjema__bilde legend { font-weight: 600; padding: 0 .4rem; font-size: .95rem; }
 .skjema__samtykke { display: flex; gap: .6rem; align-items: flex-start; font-size: .95rem; color: var(--ink-soft); }
 .skjema__samtykke input { margin-top: .25rem; }
+.skjema__radios { border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem; display: grid; gap: .55rem; }
+.skjema__radios legend { font-weight: 600; padding: 0 .4rem; font-size: .95rem; }
+.skjema__radios label { display: flex; gap: .55rem; align-items: center; font-size: .96rem; cursor: pointer; }
+.skjema__radios input { margin: 0; }
 .skjema__feil { color: #b3331b; font-size: .95rem; }
 .skjema__takk { margin-top: 2rem; background: var(--bg-alt); border: 1px solid var(--line); border-radius: 12px; padding: 2rem; }
 .skjema__takk h2 { font-size: 1.6rem; margin-bottom: .6rem; }

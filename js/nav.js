@@ -7,44 +7,44 @@
   const norm = (s) => String(s == null ? "" : s).trim().toLowerCase();
   const menyHref = (lenke) => ((lenke || "#").charAt(0) === "#" ? "index.html" + lenke : (lenke || "#"));
 
-  const DEFAULT_MENY = [
-    { tittel: "Om siden", lenke: "om.html" },
-    { tittel: "Serier", lenke: "#serier" },
-    { tittel: "Temaoversikt", lenke: "#temaer" },
+  // Fast hovedmeny - lik på alle sider. Innlegg + Bidra er dropdowns med faste underpunkter.
+  const NAV = [
+    { tittel: "Innlegg", barn: [
+      { tittel: "Alle innlegg", lenke: "arkiv.html" },
+      { tittel: "Serier", lenke: "serier.html" },
+      { tittel: "Temaoversikt", lenke: "temaer.html" },
+    ] },
     { tittel: "Modum fakta", lenke: "fakta.html" },
+    { tittel: "Om siden", lenke: "om.html" },
     { tittel: "Skribenter", lenke: "skribenter.html" },
-    { tittel: "Alle innlegg", lenke: "arkiv.html" },
+    { tittel: "Bidra", cta: true, barn: [
+      { tittel: "Skriv innlegg", lenke: "bidra.html" },
+      { tittel: "Send tips eller idé", lenke: "tips.html" },
+      { tittel: "Bli skribent", lenke: "bli-skribent.html" },
+    ] },
   ];
 
-  function ddConfig(lenke, temaer, serier) {
-    const ln = norm(lenke);
-    if (ln === "#temaer") return { list: temaer, item: "tema.html?navn=", all: "temaer.html", allTekst: "Se hele temaoversikten" };
-    if (ln === "#serier") return { list: serier, item: "serie.html?navn=", all: "serier.html", allTekst: "Se alle serier" };
-    return null;
-  }
-
-  function renderMeny(meny, temaer, serier) {
-    const nav = $("#navLinks"), cta = $("#navCta");
-    if (!nav || !cta) return;
-    Array.from(nav.children).forEach((c) => { if (c !== cta) c.remove(); });
-    const items = Array.isArray(meny) && meny.length ? meny : DEFAULT_MENY;
-    items.forEach((it) => {
-      if (!it || !it.tittel) return;
-      const dd = ddConfig(it.lenke, temaer, serier);
-      if (dd && Array.isArray(dd.list) && dd.list.length) {
-        const wrap = document.createElement("div"); wrap.className = "nav__dd";
-        const btn = document.createElement("button"); btn.type = "button"; btn.className = "nav__dd-toggle"; btn.setAttribute("aria-expanded", "false");
+  function renderNav() {
+    const nav = $("#navLinks");
+    if (!nav) return;
+    nav.innerHTML = "";
+    NAV.forEach((it) => {
+      if (it.barn && it.barn.length) {
+        const wrap = document.createElement("div"); wrap.className = "nav__dd" + (it.cta ? " nav__dd--cta" : "");
+        const btn = document.createElement("button"); btn.type = "button"; btn.className = "nav__dd-toggle" + (it.cta ? " nav__dd-toggle--cta" : ""); btn.setAttribute("aria-expanded", "false");
         btn.innerHTML = esc(it.tittel) + ' <span class="caret" aria-hidden="true">&#9662;</span>';
         const panel = document.createElement("div"); panel.className = "nav__dd-panel";
-        const all = document.createElement("a"); all.className = "nav__dd-all"; all.href = menyHref(dd.all); all.textContent = dd.allTekst; panel.appendChild(all);
-        dd.list.forEach((t) => { if (!t || !t.tittel) return; const a = document.createElement("a"); a.href = dd.item + encodeURIComponent(t.tittel); a.textContent = t.tittel; panel.appendChild(a); });
+        it.barn.forEach((b) => { if (!b || !b.tittel) return; const a = document.createElement("a"); a.href = b.lenke; a.textContent = b.tittel; panel.appendChild(a); });
         btn.addEventListener("click", (e) => { e.stopPropagation(); const open = panel.classList.toggle("open"); btn.setAttribute("aria-expanded", String(open)); });
-        wrap.appendChild(btn); wrap.appendChild(panel); nav.insertBefore(wrap, cta);
+        wrap.appendChild(btn); wrap.appendChild(panel); nav.appendChild(wrap);
       } else {
-        const a = document.createElement("a"); a.href = menyHref(it.lenke); a.textContent = it.tittel; nav.insertBefore(a, cta);
+        const a = document.createElement("a"); a.href = it.lenke; a.textContent = it.tittel; nav.appendChild(a);
       }
     });
   }
+
+  // Bakoverkompatibel alias - eldre sider kaller renderMeny(...); menyen er nå fast.
+  function renderMeny() { renderNav(); }
 
   document.addEventListener("click", () => {
     $$(".nav__dd-panel.open").forEach((p) => { p.classList.remove("open"); const b = p.parentElement && p.parentElement.querySelector(".nav__dd-toggle"); if (b) b.setAttribute("aria-expanded", "false"); });
@@ -104,5 +104,5 @@
   }
 
   // Eksporter
-  root.MV = { $, $$, esc, norm, renderMeny, fmtDato, renderPostCards, setJsonLd, menyHref };
+  root.MV = { $, $$, esc, norm, renderNav, renderMeny, fmtDato, renderPostCards, setJsonLd, menyHref };
 })(window);

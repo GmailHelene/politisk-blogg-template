@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Send tips, idé eller tilbakemelding - ModumVil.no</title>
+  <meta name="description" content="Send oss et kort tips, en idé til en sak eller en tilbakemelding på ModumVil.no. Du trenger ikke skrive et helt innlegg." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a href="#hovedinnhold" class="skip-link">Hopp til innhold</a>
+
+  <header class="nav" id="top">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand" data-navn>ModumVil.no</a>
+      <nav class="nav__links" id="navLinks" aria-label="Hovedmeny"></nav>
+      <button class="nav__toggle" id="navToggle" aria-label="Åpne meny" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="hovedinnhold">
+    <section class="article">
+      <a href="index.html" class="article__back">&larr; Til forsiden</a>
+      <div class="rule"></div>
+      <h1>Send tips, idé eller tilbakemelding</h1>
+      <div class="prose">
+        <p>Har du en sak, et spørsmål, en idé eller en tilbakemelding til ModumVil.no?</p>
+        <p>Du trenger ikke skrive et helt innlegg. Send oss gjerne korte tips, temaer du mener bør tas opp, forslag til personer vi bør kontakte, innspill om Modum, eller tilbakemeldinger på hvordan siden kan bli bedre.</p>
+      </div>
+
+      <form name="tips" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="tipsForm" class="skjema" data-ajax data-takk="#tipsTakk" data-feil="#tipsFeil">
+        <input type="hidden" name="form-name" value="tips" />
+        <p class="skjema__hp"><label>Ikke fyll ut dette feltet: <input name="bot-field" /></label></p>
+
+        <label class="skjema__felt">
+          <span>Navn</span>
+          <input type="text" name="navn" required />
+        </label>
+        <label class="skjema__felt">
+          <span>E-post (valgfritt)</span>
+          <input type="email" name="epost" />
+          <small>Fyll inn hvis vi kan kontakte deg for oppfølging. Publiseres ikke.</small>
+        </label>
+
+        <fieldset class="skjema__radios">
+          <legend>Hva gjelder det?</legend>
+          <label><input type="radio" name="kategori" value="Tips til sak" required /> <span>Tips til sak</span></label>
+          <label><input type="radio" name="kategori" value="Idé til tema" /> <span>Idé til tema</span></label>
+          <label><input type="radio" name="kategori" value="Tilbakemelding på nettsiden" /> <span>Tilbakemelding på nettsiden</span></label>
+          <label><input type="radio" name="kategori" value="Forslag til forbedring" /> <span>Forslag til forbedring</span></label>
+          <label><input type="radio" name="kategori" value="Annet" /> <span>Annet</span></label>
+        </fieldset>
+
+        <label class="skjema__felt">
+          <span>Ditt tips, din idé eller din tilbakemelding</span>
+          <textarea name="melding" rows="6" required></textarea>
+        </label>
+
+        <fieldset class="skjema__radios">
+          <legend>Kan vi kontakte deg for oppfølging?</legend>
+          <label><input type="radio" name="oppfolging" value="Ja" /> <span>Ja</span></label>
+          <label><input type="radio" name="oppfolging" value="Nei" checked /> <span>Nei</span></label>
+        </fieldset>
+
+        <button type="submit" class="btn">Send inn</button>
+        <p id="tipsFeil" class="skjema__feil" hidden>Noe gikk galt. Prøv igjen, eller send en e-post i stedet.</p>
+      </form>
+
+      <div id="tipsTakk" class="skjema__takk" hidden>
+        <h2>Takk for innspillet!</h2>
+        <p>Vi har mottatt det og leser gjennom så snart vi kan.</p>
+        <a href="index.html" class="btn">Til forsiden</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__brand" data-navn>ModumVil.no</p>
+    <p class="footer__disclaimer">Innlegg uttrykker forfatterens egne meninger.</p>
+    <p class="footer__credit">Nettside av <a href="https://helene.cloud" target="_blank" rel="noopener">helene.cloud</a></p>
+  </footer>
+
+  <script src="js/nav.js"></script>
+  <script src="js/skjema.js"></script>
+</body>
+</html>
